@@ -1,7 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
 import ReactFullpage from '@fullpage/react-fullpage';
 import styled from 'styled-components';
+import MainComponent from './components/MainComponent';
 
 const Container = styled.div`
   display: flex;
@@ -26,13 +25,9 @@ const Fullpage = () => (
         <ReactFullpage.Wrapper>
           
           <div className="section">
-          <Container>
-            <Wrapper color={'red'}>
-              <h1>자리바꾸기</h1>
-            </Wrapper>
-            
-            
-          </Container>
+          
+            <MainComponent />
+          
           </div>
           <div className="section">
             <p>Section 2</p>
