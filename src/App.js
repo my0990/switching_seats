@@ -1,6 +1,7 @@
 import ReactFullpage from '@fullpage/react-fullpage';
 import styled from 'styled-components';
 import MainComponent from './components/MainComponent';
+import NameComponent from './components/NameComponent';
 
 const Container = styled.div`
   display: flex;
@@ -25,12 +26,10 @@ const Fullpage = () => (
         <ReactFullpage.Wrapper>
           
           <div className="section">
-          
             <MainComponent />
-          
           </div>
           <div className="section">
-            <p>Section 2</p>
+            <NameComponent />
           </div>
           <div className='section'>
             <p>Section 3</p>

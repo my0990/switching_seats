@@ -6,6 +6,7 @@ const Container = styled.div`
     // align-items: center;
     min-height: 100vh;
     flex-direction: column;
+    
 `
 
 const Wrapper = styled.div`
@@ -13,14 +14,15 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     h1 {
-        font-size: 5rem;
+        font-size: 4rem;
         // text-align: center;
     }
     flex: 9;
 `
 const Footer = styled.div`
+    margin-bottom: 6rem;
     display: flex;
-    flex: 5;
+    flex: 2;
     .container {
         display: flex;
         justify-content: center;
