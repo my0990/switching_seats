@@ -7,11 +7,16 @@ const Wrapper = styled.div`
     // margin: 1rem;
     // border-radius: 5px;
     // font-size: 1rem;
-    // text-align: center;
-    // line-height: 4rem;
+    text-align: center;
+    line-height: 2.4vw;
     // vertical-align: middle;
-    width: 100%;
+    width: 8vw;
     background: white;
+    margin: 1vw;
+    height: 0;
+    padding-bottom: 30%;
+    border: 1px solid black;
+    
 `
 
 const NameTag = ({children}) => {
