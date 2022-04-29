@@ -1,7 +1,9 @@
 import ReactFullpage from '@fullpage/react-fullpage';
 import styled from 'styled-components';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import MainComponent from './components/MainComponent';
 import NameComponent from './components/NameComponent';
+import DeskComponent from './components/DeskComponent';
 
 const Container = styled.div`
   display: flex;
@@ -32,7 +34,10 @@ const Fullpage = () => (
             <NameComponent />
           </div>
           <div className='section'>
-            <p>Section 3</p>
+            <DeskComponent />
+          </div>  
+          <div className='section'>
+            <DeskComponent />
           </div>
         </ReactFullpage.Wrapper>
         
