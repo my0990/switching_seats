@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Modal, Button } from "react-bootstrap";
 import { useState } from "react";
+import DeskModalComponent from "./DeskModalComponent";
 
 
 const DeskContainer = styled.div`
@@ -43,19 +44,8 @@ const DeskComponent = () => {
                 <Button variant="primary" onClick={handleShow}>
                     새로운 배열 생성하기
                 </Button>
+                <DeskModalComponent show={show} handleClose={handleClose} />
 
-                <Modal show={show} onHide={handleClose}>
-                    
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Change
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
             </div>
         </DeskContainer>
     )
