@@ -28,10 +28,17 @@ const DeskContainer = styled.div`
     }
 `
 
-const DeskComponent = () => {
+const DeskComponent = ({scroll}) => {
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => {
+            scroll(true);
+            setShow(false);
+        }
+    const handleShow = () => {
+            scroll(false);
+            setShow(true);
+        }   
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return(
         <DeskContainer>
             <div className="label">

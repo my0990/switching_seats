@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import NameTag from './NameTag';
+import { useState } from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
 const NameContainer = styled.div`
@@ -20,6 +22,7 @@ const NameContainer = styled.div`
             flex-wrap: wrap;
         }
     }
+
 
     
 
@@ -48,30 +51,46 @@ const NameForm = styled.form`
 
 
 const NameComponent = () => {
+    const [id,setId] = useState(4);
+    const [inputName,setInputName] = useState();
+    const [tempNameArr,setTempNameArr] = useState([
+        {name: '강지현', id: 1},
+        {name: '이명권', id: 2},
+        {name: '이재철', id: 3}
+    ]);
+    const onSubmited = (e) => {
+        e.preventDefault();
+        setTempNameArr([...tempNameArr,{name: inputName, id: id}])
+        setId(id+1)
+    }
+    
+    const onChange = (e) => {
+        setInputName(e.target.value)
+        console.log(inputName);
+        console.log(tempNameArr);
+    }
     return(
         <NameContainer>
             <div className='label'>
                     <h1>우리반 명단</h1>
             </div>
-            <div className="wrapper">
-                <div className='content'>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
-                    <NameTag>강지현</NameTag>
+            <TransitionGroup>
+                <div className="wrapper">
+                    <div className='content'>
+                        {tempNameArr.map((a,i) => 
+                            ( 
+                                <CSSTransition in={true} key={i} timeout={500} classNames="fade">
+                                    <NameTag>{a.name}</NameTag>
+                                </CSSTransition>
+
+                                )
+                        )}
+                    </div>
                 </div>
-            </div>
-            <NameForm onSubmit={()=>{console.log('test')}}>
+            </TransitionGroup>
+            <NameForm onSubmit={onSubmited}>
                 <div className='inputWrapper'>
-                    <input className="input" type='text' placeholder='이름을 입력하세요'></input>
+                    <input className="input" type='text' placeholder='이름을 입력하세요' onChange={onChange}></input>
                     <button className='button' type='submit'>추가</button>
                 </div>
             </NameForm>

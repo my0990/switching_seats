@@ -49,6 +49,7 @@ const ModalContainer = styled.div`
 `
 
 const DeskModalComponent = ({handleClose, show}) => {
+    
     return(
         <Modal show={show} onHide={handleClose} size="lg">
             <ModalContainer>

@@ -16,15 +16,22 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
 `
+
+
 const Fullpage = () => (
+
   <ReactFullpage
     //fullpage options
     licenseKey = {'YOUR_KEY_HERE'}
     scrollingSpeed = {1000} /* Options here */
 
     render={({ state, fullpageApi }) => {
+      const preventScroll = (e) => {
+        fullpageApi.setAllowScrolling(e);
+        fullpageApi.setKeyboardScrolling(e);
+      }
       return (
-        
+
         <ReactFullpage.Wrapper>
           
           <div className="section">
@@ -33,11 +40,11 @@ const Fullpage = () => (
           <div className="section">
             <NameComponent />
           </div>
-          <div className='section'>
-            <DeskComponent />
+          <div className='section' >
+            <DeskComponent scroll={preventScroll}/>
           </div>  
           <div className='section'>
-            <DeskComponent />
+            <DeskComponent/>
           </div>
         </ReactFullpage.Wrapper>
         

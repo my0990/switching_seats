@@ -16,7 +16,13 @@ const Wrapper = styled.div`
     height: 0;
     padding-bottom: 30%;
     border: 1px solid black;
-    
+    .item-enter {
+        opacity: 0;
+    }
+    .item-enter-active {
+        opacity: 1;
+        transition: all 500ms;
+    }
 `
 
 const NameTag = ({children}) => {

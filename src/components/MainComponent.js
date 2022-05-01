@@ -99,7 +99,8 @@ const Footer = styled.div`
 
 
 
-const MainComponent = () => {
+const MainComponent = ({scroll}) => {
+    
     return(
         <Container>
             <Wrapper>
