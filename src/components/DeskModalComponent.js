@@ -51,7 +51,12 @@ const ModalContainer = styled.div`
 const DeskModalComponent = ({handleClose, show}) => {
     
     return(
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal 
+            show={show} 
+            onHide={handleClose} 
+            size="lg"
+            backdrop="static"
+        >
             <ModalContainer>
                 <div className="line">
                     <div className="flex">
@@ -69,13 +74,13 @@ const DeskModalComponent = ({handleClose, show}) => {
                 </div>
                 <div className="line">
                     <div className="display">
-
+                        
                     </div>
                 </div>
                 <div>
                     <div className="button-wrapper">
                         <Button>저장</Button>
-                        <Button>취소</Button>
+                        <Button onClick={handleClose}>취소</Button>
                     </div>
                 </div>
             </ModalContainer>

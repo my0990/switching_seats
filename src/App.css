@@ -36,7 +36,7 @@
     transform: rotate(360deg);
   }
 }
-/* .item-enter {
+.item-enter {
   opacity: 0;
 }
 .item-enter-active {
@@ -48,9 +48,9 @@
 }
 .item-exit-active {
   opacity: 0;
-  transition: opacity 500ms ease-in;
-} */
-.fade-enter{
+  transition: opacity 500ms ease-out;
+}
+/* .fade-enter{
   opacity: 0;
 }
 .fade-exit{
@@ -65,5 +65,5 @@
 .fade-enter-active,
 .fade-exit-active{
   transition: opacity 500ms;
-}
+} */
 

@@ -16,18 +16,16 @@ const Wrapper = styled.div`
     height: 0;
     padding-bottom: 30%;
     border: 1px solid black;
-    .item-enter {
-        opacity: 0;
-    }
-    .item-enter-active {
-        opacity: 1;
-        transition: all 500ms;
+    cursor: pointer;
+    &:hover {
+        transform: scale(1.1);
+        transition: transform 100ms ease-in;
     }
 `
 
-const NameTag = ({children}) => {
+const NameTag = ({children, onClick}) => {
     return(
-        <div>
+        <div onClick = {onClick}>
             <Wrapper>
                 {children}
             </Wrapper>
