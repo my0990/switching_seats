@@ -30,6 +30,7 @@ const DeskContainer = styled.div`
 
 const DeskComponent = ({scroll}) => {
     const [show, setShow] = useState(false);
+    const [arr,setArr] = useState([]);
     const handleClose = () => {
             scroll(true);
             setShow(false);
@@ -45,13 +46,25 @@ const DeskComponent = ({scroll}) => {
                 <h1>책상 배치</h1>
             </div>
             <div className="DeskDisplay">
-
+            {arr.map((a,i)=>{
+                            return(
+                                <tr>
+                                    {arr[i].map((a,j)=>{
+                                        return(
+                                            <td>
+                                                test
+                                            </td>
+                                        )
+                                    })}
+                                </tr>
+                            )
+                        })}
             </div>
             <div className="DeskCreateWrapper">
                 <Button variant="primary" onClick={handleShow}>
                     새로운 배열 생성하기
                 </Button>
-                <DeskModalComponent show={show} handleClose={handleClose} />
+                <DeskModalComponent show={show} handleClose={handleClose} setArr={setArr}/>
 
             </div>
         </DeskContainer>

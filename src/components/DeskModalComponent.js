@@ -2,6 +2,8 @@ import { Modal, Button } from "react-bootstrap";
 import styled from 'styled-components';
 import { arrCreate } from "../api/deskCreate";
 import { useState } from "react";
+import { useRef } from "react";
+import DeskUnitComponent from "./common/DeskUnitComponent";
 
 const ModalContainer = styled.div`
     
@@ -37,12 +39,18 @@ const ModalContainer = styled.div`
         // display: flex;
         // justify-content: center;
         position: relative;
-        div {
+        .displayWrapper {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            // margin-top: 27%;
-            transform: translate(-50%,-50%); 
+            // top: 50%;
+            // left: 50%;
+            // // margin-top: 27%;
+            // transform: translate(-50%,-50%); 
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
         
     }
@@ -59,24 +67,40 @@ const ModalContainer = styled.div`
         justify-content: space-between;
     }
     tr {
-        margin: 15px;
+        margin: 5px;
         // display: inline-block;
         display: flex;
+        
+        td{
+            margin: 5px;
+        }
     }
 `
 
-const DeskUnit = styled.span`
-    border: 1px solid white;
-    margin: 5px;
-    width: 20px;
-    display: inline-block;
-    height: 10px;
-`
 
-const DeskModalComponent = ({handleClose, show}) => {
-    const [arr,setArr] = useState([]);
+const DeskModalComponent = ({handleClose, show, setArr}) => {
+    
+    const [tempArr,setTempArr] = useState([]);
     const onCreate = (col,row) => {
-        setArr([...arrCreate(col,row)]);
+        setTempArr([...arrCreate(col,row)]);
+    }
+    const colRef = useRef();
+    const rowRef = useRef();
+
+    const onClose = () => {
+        setTempArr([]);
+        handleClose();
+    }
+    const onSave = (arr) => {
+        setArr([...arr])
+        onClose();
+    }
+    const onDeskClicked = (i,j) => {
+        let temp = [...tempArr];
+        console.log(temp[i][j].toggle++)
+        // setTempArr([...tempArr]);
+        // console.log([...tempArr])
+        // console.log(temp)
     }
     return(
         <Modal 
@@ -89,31 +113,42 @@ const DeskModalComponent = ({handleClose, show}) => {
                 <div className="line">
                     <div className="flex">
                         <div>columns</div>
-                        <input></input>
+                        <input ref={colRef}></input>
                     </div>
                     <div className="flex">
                         <div>rows</div>
-                        <input></input>
+                        <input ref={rowRef}></input>
                     </div>
                     <div className="flex">
                         <div></div>
-                        <Button>생성</Button>
+                        <Button onClick={()=> onCreate(colRef.current.value,rowRef.current.value)}>생성</Button>
                     </div>
                 </div>
                 <div className="line">
                     <div className="display">
-                        <div>
-                        {arr.map((a,i)=>{
+                        <div className="displayWrapper">
+                        {tempArr.map((a,i)=>{
                             return(
                                 <tr>
-                                    {arr[i].map((a,j)=>{
-                                        return(
-                                            <td>
-                                                <DeskUnit>
-                                                   
-                                                </DeskUnit>
-                                            </td>
-                                        )
+                                    {tempArr[i].map((a,j)=>{
+                                        if(a.toggle){
+                                            return(
+                                                <td>
+                                                    <DeskUnitComponent onClick={()=>{onDeskClicked(i,j)}}>
+                                                        {a.toggle}
+                                                    </DeskUnitComponent>
+                                                </td>
+                                            )
+                                        } else {
+                                            return(
+                                                <td>
+                                                    <DeskUnitComponent closed>
+                                                        
+                                                    </DeskUnitComponent>
+                                                </td>
+                                            )
+                                        }   
+                                        
                                     })}
                                 </tr>
                             )
@@ -123,8 +158,8 @@ const DeskModalComponent = ({handleClose, show}) => {
                 </div>
                 <div>
                     <div className="button-wrapper">
-                        <Button onClick={()=>{onCreate(8,6)}}>저장</Button>
-                        <Button onClick={handleClose}>취소</Button>
+                        <Button onClick={() => onSave(tempArr)}>저장</Button>
+                        <Button onClick={onClose}>취소</Button>
                     </div>
                 </div>
             </ModalContainer>
