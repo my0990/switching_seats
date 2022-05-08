@@ -36,7 +36,6 @@ const Fullpage = () => (
       return (
 
         <ReactFullpage.Wrapper>
-          
           <div className="section">
             <MainComponent />
           </div>
