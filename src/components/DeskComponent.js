@@ -39,9 +39,10 @@ const DeskContainer = styled.div`
     }
 `
 
-const DeskComponent = ({scroll}) => {
+const DeskComponent = ({scroll, beforeLeave}) => {
     const [show, setShow] = useState(false);
     const [arr,setArr] = useState([]);
+    
     const handleClose = () => {
             scroll(true);
             setShow(false);
@@ -51,7 +52,11 @@ const DeskComponent = ({scroll}) => {
             setShow(true);
         }   
     useEffect(()=>{
-        setArr(JSON.parse(localStorage.getItem('setArr')))
+        const temp = JSON.parse(localStorage.getItem('setArr'))
+        if(temp != null){
+            setArr(temp)
+        }
+        
     },[])
     const [isModalOpen, setIsModalOpen] = useState(false);
     return(

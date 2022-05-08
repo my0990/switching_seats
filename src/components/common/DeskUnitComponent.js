@@ -24,10 +24,10 @@ const DeskUnit = styled.div`
         transform: scale(1.1);
         transition: transform 200ms ease-in;
         cursor: pointer; 
-        @media screen and (max-width: 990px) {
+        /* @media screen and (max-width: 990px) {
             width: 25px;
             height: 13px;
-        }
+        } */
     }`
     }
     ${(props) =>

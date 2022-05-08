@@ -33,9 +33,15 @@ const Fullpage = () => (
         fullpageApi.setAllowScrolling(e);
         fullpageApi.setKeyboardScrolling(e);
       }
+
       return (
 
-        <ReactFullpage.Wrapper>
+        <ReactFullpage.Wrapper
+          onLeave={
+            (origin) => {
+              console.log('origin.index');
+            }
+          }>
           
           <div className="section">
             <MainComponent />
@@ -46,6 +52,9 @@ const Fullpage = () => (
           <div className='section' >
             <DeskComponent scroll={preventScroll}/>
           </div>  
+          <div className='section'>
+            <DrawComponent />
+          </div>
           <div className='section'>
             <DrawComponent/>
           </div>
