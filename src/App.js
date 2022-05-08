@@ -7,6 +7,7 @@ import NameComponent from './components/NameComponent';
 import DeskComponent from './components/DeskComponent';
 import DrawComponent from './components/draw/DrawComponent';
 import './App.css';
+import { useState, useEffect } from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -21,21 +22,29 @@ const Wrapper = styled.div`
 `
 
 
-const Fullpage = () => (
+const Fullpage = ({arr,setArr}) => (
 
   <ReactFullpage
     //fullpage options
     licenseKey = {'YOUR_KEY_HERE'}
     scrollingSpeed = {1000} /* Options here */
-
+    
     render={({ state, fullpageApi }) => {
       const preventScroll = (e) => {
         fullpageApi.setAllowScrolling(e);
         fullpageApi.setKeyboardScrolling(e);
       }
+      
+      
       return (
 
-        <ReactFullpage.Wrapper>
+        <ReactFullpage.Wrapper
+          onLeave={
+            (origin) => {
+              console.log('origin.index');
+            }
+          }>
+          
           <div className="section">
             <MainComponent />
           </div>
@@ -43,10 +52,13 @@ const Fullpage = () => (
             <NameComponent />
           </div>
           <div className='section' >
-            <DeskComponent scroll={preventScroll}/>
+            <DeskComponent scroll={preventScroll} arr={arr} setArr={setArr}/>
           </div>  
           <div className='section'>
-            <DrawComponent/>
+            <DrawComponent arr={arr} setArr={setArr}/>
+          </div>
+          <div className='section'>
+            {/* <DrawComponent/> */}
           </div>
         </ReactFullpage.Wrapper>
         
@@ -57,9 +69,18 @@ const Fullpage = () => (
 );
 
 function App() {
+  const [arr,setArr] = useState([]);
+  useEffect(()=>{
+    const temp = JSON.parse(localStorage.getItem('setArr'))
+    if(temp != null){
+        setArr(temp)
+    }
+    console.log(temp.length)
+    
+},[])
   return (
     <div className="App">
-      <Fullpage />
+      <Fullpage arr={arr} setArr={setArr}/>
     </div>
   );
 }
