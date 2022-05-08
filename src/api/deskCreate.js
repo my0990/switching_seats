@@ -1,14 +1,19 @@
+var _ = require('loadsh');
+
 export const arrCreate = (columns,rows) => {
-    let tempArr = []
+    let arr = []
     let colArr = []
+    
+    
     for(let i = 0;i<rows;i++){
-        colArr.push({toggle: rows,fixedSeat: null})
+        colArr.push(_.cloneDeep({toggle: true}))
     }
     for(let i = 0;i<columns;i++){
-        tempArr.push(colArr)
+        arr.push(_.cloneDeep(colArr))
     }
+
     return(
-        tempArr
+        arr
     )
 }
 

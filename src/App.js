@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MainComponent from './components/MainComponent';
 import NameComponent from './components/NameComponent';
 import DeskComponent from './components/DeskComponent';
+import DrawComponent from './components/draw/DrawComponent';
 import './App.css';
 
 const Container = styled.div`
@@ -46,7 +47,7 @@ const Fullpage = () => (
             <DeskComponent scroll={preventScroll}/>
           </div>  
           <div className='section'>
-            <DeskComponent/>
+            <DrawComponent/>
           </div>
         </ReactFullpage.Wrapper>
         

@@ -34,23 +34,25 @@ const ModalContainer = styled.div`
         width: 100%;
         height: 0;
         padding-bottom: 54%;
-        background: gray;
+        background: #ddd;
         margin-top: 1rem;
         // display: flex;
         // justify-content: center;
         position: relative;
         .displayWrapper {
             position: absolute;
-            // top: 50%;
-            // left: 50%;
-            // // margin-top: 27%;
-            // transform: translate(-50%,-50%); 
             height: 100%;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            tr {
+                display: flex;
+                td{
+                    margin: 5px;
+                }
+            }
         }
         
     }
@@ -66,23 +68,23 @@ const ModalContainer = styled.div`
         padding: 1rem;
         justify-content: space-between;
     }
-    tr {
-        margin: 5px;
-        // display: inline-block;
-        display: flex;
-        
-        td{
-            margin: 5px;
-        }
-    }
+
 `
 
 
-const DeskModalComponent = ({handleClose, show, setArr}) => {
-    
+const DeskModalComponent = ({handleClose, show, setArr, arr}) => {
+    const [numAlert,setNumAlert] = useState(false); //인풋이 10보다 크면  true
     const [tempArr,setTempArr] = useState([]);
     const onCreate = (col,row) => {
+        if(col > 10 || row > 10){
+            setNumAlert(true);
+            return(
+                false
+            )
+        }
         setTempArr([...arrCreate(col,row)]);
+        setNumAlert(false);
+
     }
     const colRef = useRef();
     const rowRef = useRef();
@@ -93,12 +95,15 @@ const DeskModalComponent = ({handleClose, show, setArr}) => {
     }
     const onSave = (arr) => {
         setArr([...arr])
+        localStorage.setItem('setArr',JSON.stringify(arr))
         onClose();
     }
     const onDeskClicked = (i,j) => {
         let temp = [...tempArr];
-        console.log(temp[i][j].toggle++)
-        // setTempArr([...tempArr]);
+        temp[i][j].toggle = !temp[i][j].toggle
+        setTempArr([...tempArr]);
+        console.log(tempArr)
+        console.log(temp[0][1]===temp[1][1])
         // console.log([...tempArr])
         // console.log(temp)
     }
@@ -113,47 +118,42 @@ const DeskModalComponent = ({handleClose, show, setArr}) => {
                 <div className="line">
                     <div className="flex">
                         <div>columns</div>
-                        <input ref={colRef}></input>
+                        <input ref={colRef} type='number'></input>
                     </div>
                     <div className="flex">
                         <div>rows</div>
-                        <input ref={rowRef}></input>
+                        <input ref={rowRef} type='number'></input>
                     </div>
                     <div className="flex">
                         <div></div>
                         <Button onClick={()=> onCreate(colRef.current.value,rowRef.current.value)}>생성</Button>
                     </div>
+                    {numAlert ? 
+                        <div style={{color: 'red', textAlign: 'center'}}>10이하의 숫자를 입력해주세요</div>
+                        : <div style={{color: 'red', textAlign: 'center',display: 'inline-block'}}></div> }
+                    
                 </div>
                 <div className="line">
                     <div className="display">
-                        <div className="displayWrapper">
-                        {tempArr.map((a,i)=>{
-                            return(
-                                <tr>
-                                    {tempArr[i].map((a,j)=>{
-                                        if(a.toggle){
-                                            return(
-                                                <td>
-                                                    <DeskUnitComponent onClick={()=>{onDeskClicked(i,j)}}>
-                                                        {a.toggle}
-                                                    </DeskUnitComponent>
-                                                </td>
-                                            )
-                                        } else {
-                                            return(
-                                                <td>
-                                                    <DeskUnitComponent closed>
-                                                        
-                                                    </DeskUnitComponent>
-                                                </td>
-                                            )
-                                        }   
-                                        
-                                    })}
-                                </tr>
-                            )
-                        })}
-                        </div>
+                        <table className="displayWrapper">
+                            <tbody>
+                                {tempArr.map((a,i)=>{
+                                    return(
+                                        <tr>
+                                            {tempArr[i].map((a,j)=>{
+                                                    return(
+                                                        <td>
+                                                            <DeskUnitComponent  modal closed={!a.toggle} onClick={()=>{onDeskClicked(i,j)}} key={j}>
+                                                                {a.toggle}
+                                                            </DeskUnitComponent>
+                                                        </td>
+                                                    )
+                                            })}
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div>
