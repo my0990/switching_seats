@@ -4,7 +4,9 @@ import { useState } from 'react';
 
 
 const Container = styled.div`
-
+    width: 100%;
+    min-width: 1024px;
+    height: auto;
 `
 const TitleWrapper = styled.div`
     height: 5vh;
@@ -18,7 +20,7 @@ const DeskWrapper = styled.div`
     align-items: center;
     flex-direction: column;
     overflow: hidden;
-    min-width: 1024px;
+    
 
 `
 const BtnWrapper = styled.div`
@@ -32,8 +34,8 @@ const DeskUnitComponent = styled.div`
     padding: 5px;
     border-radius: 5px;
     display: inline-block;
-    width: 170px;
-    height: 85px;
+    width: 140px;
+    height: 70px;
     // max-height: 5vh;
     
     
@@ -91,7 +93,7 @@ const DrawComponent = ({arr, setArr}) => {
                                             {arr[i].map((a,j)=>{
                                                 return(
                                                     <td>
-                                                        <DeskUnitComponent closed={!a.toggle} large manyCols={arr.length>6}>
+                                                        <DeskUnitComponent closed={!a.toggle} large manyCols={arr.length>6 || arr[0].length>8}>
                                                             {/* {arr.length}/ */}
                                                         </DeskUnitComponent>
                                                     </td>
