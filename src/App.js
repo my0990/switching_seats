@@ -75,7 +75,7 @@ function App() {
     if(temp != null){
         setArr(temp)
     }
-    console.log(temp.length)
+    // console.log(temp.length)
     
 },[])
   return (

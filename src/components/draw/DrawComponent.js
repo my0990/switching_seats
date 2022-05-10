@@ -34,9 +34,10 @@ const DeskUnitComponent = styled.div`
     padding: 5px;
     border-radius: 5px;
     display: inline-block;
-    width: 140px;
-    height: 70px;
-    // max-height: 5vh;
+    width: ${props => 25/props.length * 1.8}vw;
+    height: ${props => 25/props.length}vw;
+    // max-width: 15vh;
+    // max-height: 7vh;
     
     
     
@@ -91,9 +92,18 @@ const DrawComponent = ({arr, setArr}) => {
                                     return(
                                         <tr>
                                             {arr[i].map((a,j)=>{
+                                                const cols = parseInt(arr.length);
+                                                const rows = parseInt(arr[0].length);
+                                                let length = 0;
+                                                if(cols>=rows){
+                                                    length = cols;
+                                                } else {
+                                                    length = rows*0.7;
+                                                }
+                                                console.log('test',length)
                                                 return(
                                                     <td>
-                                                        <DeskUnitComponent closed={!a.toggle} large manyCols={arr.length>6 || arr[0].length>8}>
+                                                        <DeskUnitComponent closed={!a.toggle} length={length} large>
                                                             {/* {arr.length}/ */}
                                                         </DeskUnitComponent>
                                                     </td>
