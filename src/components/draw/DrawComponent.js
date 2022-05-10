@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import styled, {css} from 'styled-components';
-import { useState } from 'react';
+import { Button } from 'react-bootstrap';
 
 
 const Container = styled.div`
@@ -13,20 +13,24 @@ const TitleWrapper = styled.div`
 `
 
 const DeskWrapper = styled.div`
-    height: 75vh;
+    height: 80vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     overflow: hidden;
+    /* background: gray; */
     
 
 `
 const BtnWrapper = styled.div`
-    height: 15vh;
+    height: 10vh;
     width: 100%;
-    background: #ddd;
+    /* background: #ddd; */
+    button {
+        font-size: 2rem;
+    }
 `
 
 const DeskUnitComponent = styled.div`
@@ -34,8 +38,8 @@ const DeskUnitComponent = styled.div`
     padding: 5px;
     border-radius: 5px;
     display: inline-block;
-    width: ${props => 25/props.length * 1.8}vw;
-    height: ${props => 25/props.length}vw;
+    width: ${props => 45/props.length * 1.8}vh;
+    height: ${props => 45/props.length}vh;
     // max-width: 15vh;
     // max-height: 7vh;
     
@@ -55,6 +59,7 @@ const DeskUnitComponent = styled.div`
     ${(props) =>
         props.closed && 
      css`
+        font-size: 0;
         border: none;   
         background-color: white;
      `}
@@ -68,7 +73,8 @@ const DeskUnitComponent = styled.div`
 `
 
 const DrawComponent = ({arr, setArr}) => {
-
+    const [randomArr,setRandomArr] = useState([]);
+    let order = 0;
     
     // useEffect(()=>{
         
@@ -79,7 +85,17 @@ const DrawComponent = ({arr, setArr}) => {
     //     }
         
     // },[localStorage.getItem])
-    
+    let studentsArr = [];
+    const switchStart = () => {
+        studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
+        if(studentsArr){
+            setRandomArr(studentsArr.sort(()=>Math.random()-0.5)); 
+            console.log(randomArr)
+        } else {
+            return null;
+        }
+        
+    }
     return(
         <Container>
             <TitleWrapper>
@@ -104,7 +120,9 @@ const DrawComponent = ({arr, setArr}) => {
                                                 return(
                                                     <td>
                                                         <DeskUnitComponent closed={!a.toggle} length={length} large>
-                                                            {/* {arr.length}/ */}
+                                                            {a.toggle && order < randomArr.length
+                                                                ? randomArr[order++].name
+                                                                : null}
                                                         </DeskUnitComponent>
                                                     </td>
                                                 )
@@ -115,7 +133,9 @@ const DrawComponent = ({arr, setArr}) => {
                     </tbody>
                 </table>
             </DeskWrapper>
-            <BtnWrapper></BtnWrapper>
+            <BtnWrapper>
+                <Button variant="danger" onClick={switchStart}>시작</Button>
+            </BtnWrapper>
         </Container>
     )
 }
