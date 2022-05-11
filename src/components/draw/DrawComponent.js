@@ -118,9 +118,9 @@ const DrawComponent = ({arr, setArr}) => {
             <DeskWrapper>
             <table>
                     <tbody>
-
-                    {arr.map((a,i)=>{
-                                    return(
+                    
+                    {arr.map((a,i)=>(
+                                    
                                         <tr>
                                             {arr[i].map((a,j)=>{
                                                 const cols = parseInt(arr.length);
@@ -136,20 +136,27 @@ const DrawComponent = ({arr, setArr}) => {
                                                     <td>
                                                         
                                                             <DeskUnitComponent closed={!a.toggle} length={length} large>
+                                                                <CSSTransition
+                                                                appear
+                                                                classNames="item"
+                                                                in={test}
+                                                                timeout={500}>
+                                                                <div>
+                                                                    {a.name}
+                                                                </div>
+                                                                </CSSTransition>
                                                             
-                                                            <AnimatedText
-                                                                type="words">
-                                                                {a.name}
-                                                            </AnimatedText>
+                                                            
                                                             </DeskUnitComponent>
-                                                            
+                                                        
                                                     </td>
                                                 )
                                             })}
                                         </tr>
+                                        
                                     )
-                                })}
-             
+                                )}
+                    
                     </tbody>
                 </table>
             </DeskWrapper>
