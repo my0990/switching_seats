@@ -1,7 +1,8 @@
 import { useEffect,useState } from 'react';
 import styled, {css} from 'styled-components';
 import { Button } from 'react-bootstrap';
-
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import AnimatedText from 'react-animated-text-content';
 
 const Container = styled.div`
     width: 100%;
@@ -73,7 +74,10 @@ const DeskUnitComponent = styled.div`
 `
 
 const DrawComponent = ({arr, setArr}) => {
+    const[test,setTest] = useState(false);
+    
     const [randomArr,setRandomArr] = useState([]);
+    
     let order = 0;
     
     // useEffect(()=>{
@@ -88,13 +92,23 @@ const DrawComponent = ({arr, setArr}) => {
     let studentsArr = [];
     const switchStart = () => {
         studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
+        let tempArr = [...arr];
         if(studentsArr){
             setRandomArr(studentsArr.sort(()=>Math.random()-0.5)); 
-            console.log(randomArr)
+            
+            let count = 0;
+            for(let i = 0;i<tempArr.length;i++){
+                for(let j=0;j<tempArr[0].length;j++){
+                    if(count < studentsArr.length && tempArr[i][j].toggle){
+                tempArr[i][j]['name'] = studentsArr[count++].name
+                }}
+            }
+            console.log('tempArr: ', tempArr)
         } else {
             return null;
         }
-        
+        setArr(tempArr)
+        setTest(!test);
     }
     return(
         <Container>
@@ -104,6 +118,7 @@ const DrawComponent = ({arr, setArr}) => {
             <DeskWrapper>
             <table>
                     <tbody>
+
                     {arr.map((a,i)=>{
                                     return(
                                         <tr>
@@ -116,20 +131,25 @@ const DrawComponent = ({arr, setArr}) => {
                                                 } else {
                                                     length = rows*0.7;
                                                 }
-                                                console.log('test',length)
+                                                
                                                 return(
                                                     <td>
-                                                        <DeskUnitComponent closed={!a.toggle} length={length} large>
-                                                            {a.toggle && order < randomArr.length
-                                                                ? randomArr[order++].name
-                                                                : null}
-                                                        </DeskUnitComponent>
+                                                        
+                                                            <DeskUnitComponent closed={!a.toggle} length={length} large>
+                                                            
+                                                            <AnimatedText
+                                                                type="words">
+                                                                {a.name}
+                                                            </AnimatedText>
+                                                            </DeskUnitComponent>
+                                                            
                                                     </td>
                                                 )
                                             })}
                                         </tr>
                                     )
                                 })}
+             
                     </tbody>
                 </table>
             </DeskWrapper>
