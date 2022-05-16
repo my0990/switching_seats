@@ -1,37 +1,28 @@
-import { useEffect,useState } from 'react';
 import styled, {css} from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import AnimatedText from 'react-animated-text-content';
+import { useState } from 'react';
 
 const Container = styled.div`
-    width: 100%;
-    min-width: 1024px;
-    height: auto;
-`
-const TitleWrapper = styled.div`
-    height: 5vh;
-`
-
-const DeskWrapper = styled.div`
-    height: 80vh;
-    width: 100%;
     display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: orange;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    overflow: hidden;
-    /* background: gray; */
-    
-
 `
-const BtnWrapper = styled.div`
-    height: 10vh;
-    width: 100%;
-    /* background: #ddd; */
-    button {
-        font-size: 2rem;
-    }
+
+const Wrapper = styled.div`
+    background-color: white;
+    width: 80%;
+    height: 80%;
+    min-width: 1024px;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const DeskUnitComponent = styled.div`
@@ -52,9 +43,9 @@ const DeskUnitComponent = styled.div`
     span{
         display: inline-block;
     }
-    
-    
-    @media screen and (min-width: 1024px){
+    cursor: pointer;
+    margin: 6px;
+    /* @media screen and (min-width: 1024px){
         margin: 6px;
     }    
     @media screen and (min-width: 768px) and (max-width: 1023px){
@@ -64,13 +55,14 @@ const DeskUnitComponent = styled.div`
     @media screen and (max-width: 767px){
         background: greenyellow;
         margin: 3px;
-    }
+    } */
     ${(props) =>
         props.closed && 
      css`
         font-size: 0;
         border: none;   
         background-color: white;
+        cursor: default;
      `}
      ${(props) =>
         props.manyCols && 
@@ -81,50 +73,14 @@ const DeskUnitComponent = styled.div`
      `}
 `
 
-const DrawComponent = ({arr, setArr}) => {
-    const[test,setTest] = useState(false);
-    
-    const [randomArr,setRandomArr] = useState([]);
-    
-    let order = 0;
-    
-    // useEffect(()=>{
-        
-    //     let temp = JSON.parse(localStorage.getItem('setArr'))
-    //     if(temp != null){
-    //         // setArr(temp)
-    //         console.log(temp.length)
-    //     }
-        
-    // },[localStorage.getItem])
-    let studentsArr = [];
-    const switchStart = () => {
-        studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
-        let tempArr = [...arr];
-        if(studentsArr){
-            setRandomArr(studentsArr.sort(()=>Math.random()-0.5)); 
-            
-            let count = 0;
-            for(let i = 0;i<tempArr.length;i++){
-                for(let j=0;j<tempArr[0].length;j++){
-                    if(count < studentsArr.length && tempArr[i][j].toggle){
-                tempArr[i][j]['name'] = studentsArr[count++].name
-                }}
-            }
-            console.log('tempArr: ', tempArr)
-        } else {
-            return null;
-        }
-        setArr(tempArr)
-        setTest(!test);
-    }
+const ManipulateComponent = ({arr}) => {
+    const [modalToggle,setModalToggle] = useState(false);
     return(
         <Container>
-            <TitleWrapper>
-                <h1>자리 뽑기</h1>
-            </TitleWrapper>
-            <DeskWrapper>
-            <table>
+            <h1>조작</h1>
+            <Wrapper>
+                
+                <table>
                     <tbody>
                     
                     {arr.map((a,i)=>(
@@ -138,12 +94,11 @@ const DrawComponent = ({arr, setArr}) => {
                                             } else {
                                                 length = rows*0.7;
                                             }
-                                            
                                             return(
                                                 <td>
                                                     
-                                                        <DeskUnitComponent closed={!a.toggle} length={length} large>
-                                                            <CSSTransition
+                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{console.log(i,j)}}>
+                                                            {/* <CSSTransition
                                                             // appear
                                                             classNames="item"
                                                             in={test}
@@ -152,7 +107,7 @@ const DrawComponent = ({arr, setArr}) => {
                                                             <div >
                                                                 <span>{a.name}</span>
                                                             </div>
-                                                            </CSSTransition>
+                                                            </CSSTransition> */}
                                                         </DeskUnitComponent>
                                                     
                                                 </td>
@@ -165,12 +120,9 @@ const DrawComponent = ({arr, setArr}) => {
                     
                     </tbody>
                 </table>
-            </DeskWrapper>
-            <BtnWrapper>
-                <Button variant="danger" onClick={switchStart}>시작</Button>
-            </BtnWrapper>
+            </Wrapper>
         </Container>
     )
 }
 
-export default DrawComponent;
+export default ManipulateComponent;

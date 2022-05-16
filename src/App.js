@@ -6,6 +6,7 @@ import MainComponent from './components/MainComponent';
 import NameComponent from './components/NameComponent';
 import DeskComponent from './components/DeskComponent';
 import DrawComponent from './components/draw/DrawComponent';
+import ManipulateComponent from './components/secret/ManipulateComponent';
 import './App.css';
 import { useState, useEffect } from 'react';
 
@@ -44,7 +45,9 @@ const Fullpage = ({arr,setArr}) => (
               console.log('origin.index');
             }
           }>
-          
+          <div className='section'>
+            <ManipulateComponent arr={arr}/>
+          </div>
           <div className="section">
             <MainComponent />
           </div>
@@ -57,9 +60,7 @@ const Fullpage = ({arr,setArr}) => (
           <div className='section'>
             <DrawComponent arr={arr} setArr={setArr}/>
           </div>
-          <div className='section'>
-            {/* <DrawComponent/> */}
-          </div>
+
         </ReactFullpage.Wrapper>
         
 
