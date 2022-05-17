@@ -12,6 +12,35 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    .Modal {
+        position: fixed;
+        /* bottom: -150vh; */
+        background-color: #fff;
+        /* width: 100%; */
+        height: 100%;
+        box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
+        right: -150vw;
+        padding: 0 12px 12px;
+        transition: right 0.3s ease-out;
+        z-index: 10;
+        width: 300px;
+    }
+    .Modal.Show {
+        right: 0;
+    }
+    .Overlay {
+        background-color: rgba(0, 0, 0, 0.55);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: fixed;
+        display: none;
+        z-index: 5;
+    }
+    .Overlay.Show {
+        display: block;
+    }
 `
 
 const Wrapper = styled.div`
@@ -77,6 +106,13 @@ const ManipulateComponent = ({arr}) => {
     const [modalToggle,setModalToggle] = useState(false);
     return(
         <Container>
+            <div className={`Modal ${modalToggle? 'Show' : ''}`}>
+                test
+            </div>
+            <div 
+                className={`Overlay ${modalToggle ? 'Show' : ''}`}
+                onClick={()=>{setModalToggle(!modalToggle)}}
+            />
             <h1>조작</h1>
             <Wrapper>
                 
@@ -97,7 +133,7 @@ const ManipulateComponent = ({arr}) => {
                                             return(
                                                 <td>
                                                     
-                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{console.log(i,j)}}>
+                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{setModalToggle(!modalToggle)}}>
                                                             {/* <CSSTransition
                                                             // appear
                                                             classNames="item"
