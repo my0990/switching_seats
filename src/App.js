@@ -9,6 +9,8 @@ import DrawComponent from './components/draw/DrawComponent';
 import ManipulateComponent from './components/secret/ManipulateComponent';
 import './App.css';
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { studentsArr,desksArr } from './modules/arr';
 
 const Container = styled.div`
   display: flex;
@@ -71,11 +73,18 @@ const Fullpage = ({arr,setArr}) => (
 
 function App() {
   const [arr,setArr] = useState([]);
+  const dispatch = useDispatch();
+  // 최초 학생 및 책상 배열 가져오고 리덕스에 저장
   useEffect(()=>{
-    const temp = JSON.parse(localStorage.getItem('setArr'))
-    if(temp != null){
-        setArr(temp)
-    }
+    const tempStudentsArr = JSON.parse(localStorage.getItem('studentsArr'))
+    const tempDesksArr = JSON.parse(localStorage.getItem('desksArr'))
+
+    dispatch(studentsArr(tempStudentsArr))
+    dispatch(desksArr(tempDesksArr))
+
+    // if(temp != null){
+    //     setArr(temp)
+    // }
     // console.log(temp.length)
     
 },[])

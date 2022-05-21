@@ -50,7 +50,7 @@ const NameForm = styled.form`
     }
 `
 
-const NameListComponent = ({studentsArr}) => {
+const NameListComponent = ({studentsArr, addStudentName}) => {
     const [id,setId] = useState(1);
     const [inputName,setInputName] = useState();
     // const [tempNameArr,setTempNameArr] = useState([]);
@@ -77,19 +77,19 @@ const NameListComponent = ({studentsArr}) => {
     //     }
     // },[tempNameArr])
     const onSubmited = (e) => {
-        // if(tempNameArr.length < 40){
-        // e.preventDefault();
-        // // setTempNameArr([...tempNameArr,{name: inputName, id: id}]);
+        e.preventDefault();
+        if(studentsArr.length < 40){
+        addStudentName(inputName)
+        // setTempNameArr([...tempNameArr,{name: inputName, id: id}]);
         // addStudentName({name: inputName, setStudentsArr: setTempNameArr, studentsArr: tempNameArr});
-        // setId(id+1);
-        // inputRef.current.value = '';
-        // setInputName('')
+        inputRef.current.value = '';
+        setInputName('')
         // localStorage.setItem("studentsArr",JSON.stringify([...tempNameArr,{name: inputName, id: id}]))
-        // localStorage.setItem("id",id);
-        // } else {
-        //     alert('학생수는 최대 40명입니다^^;;');
+        localStorage.setItem("id",id);
+        } else {
+            alert('학생수는 최대 40명입니다^^;;');
             e.preventDefault();
-        // }
+        }
     }
 
     const onDelete = (i) => {
@@ -105,7 +105,7 @@ const NameListComponent = ({studentsArr}) => {
         // console.log(tempNameArr);
     }
     const inputRef = useRef();
-    console.log(studentsArr)
+    // console.log(studentsArr)
 
     return(
         <NameContainer>

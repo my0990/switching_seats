@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRef } from "react";
 import DeskUnitComponent from "./common/DeskUnitComponent";
 import { useDispatch } from "react-redux";
-import { deskArr } from "../modules/arr";
+// import { deskArr } from "../modules/arr";
 
 const ModalContainer = styled.div`
     
@@ -99,7 +99,7 @@ const DeskModalComponent = ({handleClose, show, setArr, arr}) => {
     const onSave = (arr) => {
         setArr([...arr])
         localStorage.setItem('setArr',JSON.stringify(arr))
-        dispatch(deskArr(arr))
+        // dispatch(deskArr(arr))
         onClose();
     }
     const onDeskClicked = (i,j) => {

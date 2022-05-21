@@ -1,19 +1,43 @@
 import NameListComponent from "../components/NameListComponent"
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import { studentsArr, desksArr } from "../modules/arr";
 
-import { getStudentsArr } from '../api/nameListapi';
-import { addStudentName } from '../api/nameListapi';
 
 const NameListContainer = () => {
     const [studentsArr,setStudentsArr] = useState([{name: "강지현"}, {name: "이재철"}]); 
-
+    const tempArr = useSelector(state => state.arr.studentsArr);
+    const dispatch = useDispatch();
+   
+    
     //최초 이름 명단 가져오기
     useEffect(()=>{
-        getStudentsArr({setStudentsArr: setStudentsArr})
-    },[])
+        if(tempArr != undefined){
+        setStudentsArr([...tempArr])
+        }
+    },tempArr);
+    
+    //학생 이름 추가하기
+    const addStudentName = (name) => {
+        let id = localStorage.getItem('id');
+        localStorage.setItem('id',JSON.stringify(id++));
+        setStudentsArr([...tempArr, {name: name, id: id }])
+        dispatch(studentsArr(studentsArr))
+    }
+    // useEffect(()=>{
+
+        
+    //     if(tempArr ===null){
+    //         setStudentsArr([{name:"강지현"}])
+    //         localStorage.setItem('studentsArr',JSON.parse([{name:"강지현"}]))
+    //         console.log('test')
+    //     } else {
+    //         setStudentsArr([...tempArr])
+    //     }
+    //     console.log('test')
+    // },[])
     return(
-        <NameListComponent studentsArr={studentsArr}/>
+        <NameListComponent studentsArr={studentsArr} addStudentName={addStudentName}/>
     )
 }
 
