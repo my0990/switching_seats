@@ -5,7 +5,7 @@ import { studentsArr, desksArr } from "../modules/arr";
 
 
 const NameListContainer = () => {
-    const [studentsArr,setStudentsArr] = useState([{name: "강지현"}, {name: "이재철"}]); 
+    const [arr,setStudentsArr] = useState([{name: "강지현"}, {name: "이재철"}]); 
     const tempArr = useSelector(state => state.arr.studentsArr);
     const dispatch = useDispatch();
    
@@ -22,7 +22,8 @@ const NameListContainer = () => {
         let id = localStorage.getItem('id');
         localStorage.setItem('id',JSON.stringify(id++));
         setStudentsArr([...tempArr, {name: name, id: id }])
-        dispatch(studentsArr(studentsArr))
+        dispatch(studentsArr([...tempArr, {name: name, id: id }]))
+        localStorage.setItem("studentsArr",JSON.stringify([...tempArr, {name: name, id: id }]))
     }
     // useEffect(()=>{
 
@@ -37,7 +38,7 @@ const NameListContainer = () => {
     //     console.log('test')
     // },[])
     return(
-        <NameListComponent studentsArr={studentsArr} addStudentName={addStudentName}/>
+        <NameListComponent studentsArr={arr} addStudentName={addStudentName}/>
     )
 }
 

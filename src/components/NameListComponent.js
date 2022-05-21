@@ -119,7 +119,7 @@ const NameListComponent = ({studentsArr, addStudentName}) => {
                         {studentsArr.map((a,i) => 
                             ( 
                                 <CSSTransition 
-                                    key={a.id} 
+                                    key={i} 
                                     timeout={500} 
                                     classNames="item"
                                 >
