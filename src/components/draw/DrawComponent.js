@@ -107,11 +107,12 @@ const DrawComponent = ({arr, setArr}) => {
             let count = 0;
             for(let i = 0;i<tempArr.length;i++){
                 for(let j=0;j<tempArr[0].length;j++){
-                    if(count < studentsArr.length && tempArr[i][j].toggle){
+                    if(count < studentsArr.length && tempArr[i][j].toggle && !tempArr[i][j].fixedStudent){
                 tempArr[i][j]['name'] = studentsArr[count++].name
                 }}
             }
             console.log('tempArr: ', tempArr)
+            
         } else {
             return null;
         }
@@ -126,7 +127,6 @@ const DrawComponent = ({arr, setArr}) => {
             <DeskWrapper>
             <table>
                     <tbody>
-                    
                     {arr.map((a,i)=>(
                                     <tr>
                                         {arr[i].map((a,j)=>{
@@ -141,7 +141,7 @@ const DrawComponent = ({arr, setArr}) => {
                                             
                                             return(
                                                 <td>
-                                                    
+
                                                         <DeskUnitComponent closed={!a.toggle} length={length} large>
                                                             <CSSTransition
                                                             // appear

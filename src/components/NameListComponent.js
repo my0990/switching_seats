@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import NameTag from './NameTag';
+import NameTag from './common/NameTag';
 import { useEffect, useRef, useState } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
+import { getStudentsArr } from '../api/nameListapi';
+import { addStudentName } from '../api/nameListapi';
 
 const NameContainer = styled.div`
     .label {
@@ -26,10 +28,6 @@ const NameContainer = styled.div`
             opacity: 50%;
         }
     }
-
-
-    
-
 `
 
 
@@ -52,63 +50,62 @@ const NameForm = styled.form`
     }
 `
 
-
-
-
-
-const NameComponent = () => {
+const NameListComponent = ({studentsArr}) => {
     const [id,setId] = useState(1);
     const [inputName,setInputName] = useState();
-    const [tempNameArr,setTempNameArr] = useState([]);
-    const [isArrExist,setIsArrExist] = useState(false);
-    useEffect(()=>{
-        let tempArr = JSON.parse(localStorage.getItem('studentsArr'));
-        let lastId = JSON.parse(localStorage.getItem('id'));
-        if(tempArr.length !== 0){
-            setIsArrExist(true);
-            setTempNameArr(tempArr);
-            setId(lastId + 1);
-        } else {
-            localStorage.setItem('id', 1)
-        }
-    },[])
-
-    useEffect(()=>{
-        if(tempNameArr.length === 0){
-            setIsArrExist(false);
-        } else {
-            setIsArrExist(true);
-        }
-    },[tempNameArr])
+    // const [tempNameArr,setTempNameArr] = useState([]);
+    const [isArrExist,setIsArrExist] = useState(true);
+    // useEffect(()=>{
+    //     let tempArr = JSON.parse(localStorage.getItem('studentsArr'));
+    //     let lastId = JSON.parse(localStorage.getItem('id'));
+    //     if(tempArr.length !== 0){
+    //         setIsArrExist(true);
+    //         setTempNameArr(tempArr);
+    //         setId(lastId + 1);
+    //     } else {
+    //         localStorage.setItem('id', 1)
+    //     }
+    // },[])
+    // useEffect(()=>{
+    //     getStudentsArr({setStudentsArr: setTempNameArr});
+    // },[])
+    // useEffect(()=>{
+    //     if(tempNameArr.length === 0){
+    //         setIsArrExist(false);
+    //     } else {
+    //         setIsArrExist(true);
+    //     }
+    // },[tempNameArr])
     const onSubmited = (e) => {
-        if(tempNameArr.length < 40){
-        e.preventDefault();
-        setTempNameArr([...tempNameArr,{name: inputName, id: id}]);
-        setId(id+1);
-        inputRef.current.value = '';
-        setInputName('')
-        localStorage.setItem("studentsArr",JSON.stringify([...tempNameArr,{name: inputName, id: id}]))
-        localStorage.setItem("id",id);
-        } else {
-            alert('학생수는 최대 40명입니다^^;;');
+        // if(tempNameArr.length < 40){
+        // e.preventDefault();
+        // // setTempNameArr([...tempNameArr,{name: inputName, id: id}]);
+        // addStudentName({name: inputName, setStudentsArr: setTempNameArr, studentsArr: tempNameArr});
+        // setId(id+1);
+        // inputRef.current.value = '';
+        // setInputName('')
+        // localStorage.setItem("studentsArr",JSON.stringify([...tempNameArr,{name: inputName, id: id}]))
+        // localStorage.setItem("id",id);
+        // } else {
+        //     alert('학생수는 최대 40명입니다^^;;');
             e.preventDefault();
-        }
+        // }
     }
 
     const onDelete = (i) => {
-        let temp = tempNameArr.filter(tempName => tempName.id !== i)
-        setTempNameArr([...temp])
-        localStorage.setItem("studentsArr", JSON.stringify(temp))
+        // let temp = tempNameArr.filter(tempName => tempName.id !== i)
+        // setTempNameArr([...temp])
+        // localStorage.setItem("studentsArr", JSON.stringify(temp))
         console.log('rendered')
     }
     
     const onChange = (e) => {
         setInputName(e.target.value)
         console.log(inputName);
-        console.log(tempNameArr);
+        // console.log(tempNameArr);
     }
     const inputRef = useRef();
-
+    console.log(studentsArr)
 
     return(
         <NameContainer>
@@ -116,10 +113,10 @@ const NameComponent = () => {
                     <h1>우리반 명단</h1>
             </div>
                 <div className="wrapper">
-                    {!isArrExist 
+                    {studentsArr.length === 0
                     ? <h3>학생 이름을 입력해주세요. 이름을 클릭하면 삭제할 수 있습니다.</h3>
                     : <TransitionGroup className='content'>
-                        {tempNameArr.map((a,i) => 
+                        {studentsArr.map((a,i) => 
                             ( 
                                 <CSSTransition 
                                     key={a.id} 
@@ -144,4 +141,4 @@ const NameComponent = () => {
     )
 }
 
-export default NameComponent;
+export default NameListComponent;

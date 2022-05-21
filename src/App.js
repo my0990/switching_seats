@@ -3,7 +3,7 @@ import ReactFullpage from '@fullpage/react-fullpage';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MainComponent from './components/MainComponent';
-import NameComponent from './components/NameComponent';
+import NameListContainer from './container/NameListContainer';
 import DeskComponent from './components/DeskComponent';
 import DrawComponent from './components/draw/DrawComponent';
 import ManipulateComponent from './components/secret/ManipulateComponent';
@@ -52,7 +52,7 @@ const Fullpage = ({arr,setArr}) => (
             <MainComponent />
           </div>
           <div className="section">
-            <NameComponent />
+            <NameListContainer />
           </div>
           <div className='section' >
             <DeskComponent scroll={preventScroll} arr={arr} setArr={setArr}/>

@@ -4,6 +4,8 @@ import { arrCreate } from "../api/deskCreate";
 import { useState } from "react";
 import { useRef } from "react";
 import DeskUnitComponent from "./common/DeskUnitComponent";
+import { useDispatch } from "react-redux";
+import { deskArr } from "../modules/arr";
 
 const ModalContainer = styled.div`
     
@@ -73,6 +75,7 @@ const ModalContainer = styled.div`
 
 
 const DeskModalComponent = ({handleClose, show, setArr, arr}) => {
+    const dispatch = useDispatch();
     const [numAlert,setNumAlert] = useState(false); //인풋이 10보다 크면  true
     const [tempArr,setTempArr] = useState([]);
     const onCreate = (col,row) => {
@@ -96,6 +99,7 @@ const DeskModalComponent = ({handleClose, show, setArr, arr}) => {
     const onSave = (arr) => {
         setArr([...arr])
         localStorage.setItem('setArr',JSON.stringify(arr))
+        dispatch(deskArr(arr))
         onClose();
     }
     const onDeskClicked = (i,j) => {

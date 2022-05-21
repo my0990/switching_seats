@@ -17,13 +17,15 @@ const Container = styled.div`
         /* bottom: -150vh; */
         background-color: #fff;
         /* width: 100%; */
-        height: 100%;
+        height: 100vh;
         box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
         right: -150vw;
         padding: 0 12px 12px;
         transition: right 0.3s ease-out;
         z-index: 10;
         width: 300px;
+        overflow: scroll;
+        overflow-x:hidden
     }
     .Modal.Show {
         right: 0;
@@ -40,6 +42,18 @@ const Container = styled.div`
     }
     .Overlay.Show {
         display: block;
+    }
+    ul {
+        list-style: none;
+        
+        li {
+            text-align: start;
+            padding: 10px;
+            cursor: pointer;
+            &:hover{
+                color: red;
+            }
+        }
     }
 `
 
@@ -103,11 +117,40 @@ const DeskUnitComponent = styled.div`
 `
 
 const ManipulateComponent = ({arr}) => {
+    const [fixedDesk,setFixedDesk]= useState([])
     const [modalToggle,setModalToggle] = useState(false);
+    const studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
+    const onDeskClicked = (i,j) => {
+        setModalToggle(!modalToggle)
+        setFixedDesk([i,j])
+    }
+    const fixStudent = (name) => {
+        for(let i =0;i<arr.length;i++){
+            let tempIndex = arr[i].findIndex(x=>x.fixedStudent === name)
+            
+            if(tempIndex !== -1){
+                delete arr[i][tempIndex].fixedStudent;
+                break;
+            }
+        }
+        arr[fixedDesk[0]][fixedDesk[1]] = {...arr[fixedDesk[0]][fixedDesk[1]], fixedStudent: name}
+
+        localStorage.setItem("setArr",JSON.stringify(arr));
+        
+        // localStorage.setItem("studentsArr",JSON.stringify(studentsArr))
+        setModalToggle(false);
+
+    }
     return(
         <Container>
             <div className={`Modal ${modalToggle? 'Show' : ''}`}>
-                test
+                <ul>
+                {studentsArr.map((a,i)=>{
+                    return(
+                    <li key={i} onClick={()=>{fixStudent(a.name)}}>{a.name}</li>
+                    )
+                })}
+                </ul>
             </div>
             <div 
                 className={`Overlay ${modalToggle ? 'Show' : ''}`}
@@ -133,7 +176,7 @@ const ManipulateComponent = ({arr}) => {
                                             return(
                                                 <td>
                                                     
-                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{setModalToggle(!modalToggle)}}>
+                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{onDeskClicked(i,j)}}>
                                                             {/* <CSSTransition
                                                             // appear
                                                             classNames="item"
@@ -144,6 +187,7 @@ const ManipulateComponent = ({arr}) => {
                                                                 <span>{a.name}</span>
                                                             </div>
                                                             </CSSTransition> */}
+                                                            {a.fixedStudent}
                                                         </DeskUnitComponent>
                                                     
                                                 </td>
