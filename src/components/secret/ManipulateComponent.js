@@ -116,13 +116,14 @@ const DeskUnitComponent = styled.div`
      `}
 `
 
-const ManipulateComponent = ({arr}) => {
+const ManipulateComponent = ({arr, scroll}) => {
     const [fixedDesk,setFixedDesk]= useState([])
     const [modalToggle,setModalToggle] = useState(false);
     const studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
     const onDeskClicked = (i,j) => {
         setModalToggle(!modalToggle)
         setFixedDesk([i,j])
+        
     }
     const fixStudent = (name) => {
         for(let i =0;i<arr.length;i++){

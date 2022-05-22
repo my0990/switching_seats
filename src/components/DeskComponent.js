@@ -39,18 +39,20 @@ const DeskContainer = styled.div`
     }
 `
 
-const DeskComponent = ({scroll, arr, setArr}) => {
+const DeskComponent = ({scroll, desksArr, setDesksArr}) => {
     const [show, setShow] = useState(false);
-    // const [arr,setArr] = useState([]);
-    
-    const handleClose = () => {
-            scroll(true);
-            setShow(false);
-        }
+
+    // 책상 배열 생성창 열기
     const handleShow = () => {
-            scroll(false);
-            setShow(true);
-        }   
+        scroll(false); //스크롤 막기
+        setShow(true);
+    }   
+
+    // 책상 배열 생성창 닫기
+    const handleClose = () => {
+        scroll(true); //스크롤 허용
+        setShow(false);
+    }
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     return(
@@ -61,21 +63,19 @@ const DeskComponent = ({scroll, arr, setArr}) => {
             <div className="DeskDisplay">
                 <table>
                     <tbody>
-                    {arr.map((a,i)=>{
+                    {desksArr.map((a,i)=>{
+                        return(
+                            <tr>
+                                {desksArr[i].map((a,j)=>{
                                     return(
-                                        <tr>
-                                            {arr[i].map((a,j)=>{
-                                                return(
-                                                    <td>
-                                                        <DeskUnitComponent closed={!a.toggle} large>
-                                                            
-                                                        </DeskUnitComponent>
-                                                    </td>
-                                                )
-                                            })}
-                                        </tr>
+                                        <td>
+                                            <DeskUnitComponent closed={!a.toggle} large />
+                                        </td>
                                     )
                                 })}
+                            </tr>
+                        )
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -83,8 +83,12 @@ const DeskComponent = ({scroll, arr, setArr}) => {
                 <Button variant="primary" onClick={handleShow}>
                     새로운 배열 생성하기
                 </Button>
-                <DeskModalComponent show={show} handleClose={handleClose} setArr={setArr} arr={arr}/>
-
+                <DeskModalComponent 
+                    show={show} 
+                    handleClose={handleClose} 
+                    setDesksArr={setDesksArr} 
+                    desksArr={desksArr}
+                />
             </div>
         </DeskContainer>
     )

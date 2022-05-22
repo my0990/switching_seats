@@ -1,8 +1,8 @@
 import { useEffect,useState } from 'react';
 import styled, {css} from 'styled-components';
 import { Button } from 'react-bootstrap';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import AnimatedText from 'react-animated-text-content';
+import { CSSTransition } from 'react-transition-group';
+
 
 const Container = styled.div`
     width: 100%;
@@ -81,47 +81,34 @@ const DeskUnitComponent = styled.div`
      `}
 `
 
-const DrawComponent = ({arr, setArr}) => {
-    const[test,setTest] = useState(false);
-    
-    const [randomArr,setRandomArr] = useState([]);
-    
-    let order = 0;
-    
-    // useEffect(()=>{
-        
-    //     let temp = JSON.parse(localStorage.getItem('setArr'))
-    //     if(temp != null){
-    //         // setArr(temp)
-    //         console.log(temp.length)
-    //     }
-        
-    // },[localStorage.getItem])
+const DrawComponent = ({studentsArr, desksArr}) => {
+    // var _ = require('loadsh');
+    const [tempDesksArr,setTempDesksArr] = useState([]); //임시 책상 배열
+    const [tempStudentsArr, setTempStudentsArr] = useState([]); //임시 학생 배열
+    const [isStarted,setIsStarted] = useState(false); //시작
 
+    useEffect(()=>{
+        setTempDesksArr([...desksArr]) //책상배열 임시책상배열로 복사  만약 깊은복사 안되면 lodash 이용할것
+        setTempStudentsArr([...studentsArr]) //학생배열 임시학생배열로 복사
+    })
 
-    
-    let studentsArr = [];
+    //뽑기 시작, 임시 학생 배열을 만들어서 랜덤으로 재배치
     const switchStart = () => {
-        studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
-        let tempArr = [...arr];
-        if(studentsArr){
-            setRandomArr(studentsArr.sort(()=>Math.random()-0.5)); 
-            
+        if(studentsArr.length > 0){
+            studentsArr.sort(()=>Math.random()-0.5); 
             let count = 0;
-            for(let i = 0;i<tempArr.length;i++){
-                for(let j=0;j<tempArr[0].length;j++){
-                    if(count < studentsArr.length && tempArr[i][j].toggle && !tempArr[i][j].fixedStudent){
-                tempArr[i][j]['name'] = studentsArr[count++].name
+            for(let i = 0;i<tempDesksArr.length;i++){
+                for(let j=0;j<tempDesksArr[0].length;j++){
+                    if(count < tempStudentsArr.length && tempDesksArr[i][j].toggle && !tempDesksArr[i][j].fixedStudent){
+                        tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
                 }}
             }
-            console.log('tempArr: ', tempArr)
-            
         } else {
             return null;
         }
-        setArr(tempArr)
-        setTest(!test);
+        setIsStarted(true);
     }
+
     return(
         <Container>
             <TitleWrapper>
@@ -130,42 +117,39 @@ const DrawComponent = ({arr, setArr}) => {
             <DeskWrapper>
             <table>
                     <tbody>
-                    {arr.map((a,i)=>(
-                                    <tr>
-                                        {arr[i].map((a,j)=>{
-                                            const cols = parseInt(arr.length);
-                                            const rows = parseInt(arr[0].length);
-                                            let length = 0;
-                                            if(cols>=rows){
-                                                length = cols;
-                                            } else {
-                                                length = rows*0.7;
-                                            }
-                                            
-                                            return(
-                                                <td>
+                    {tempDesksArr.map((a,i)=>(
+                        <tr>
+                            {tempDesksArr[i].map((a,j)=>{
+                                const cols = parseInt(tempDesksArr.length);
+                                const rows = parseInt(tempDesksArr[0].length);
+                                let length = 0;
+                                if(cols>=rows){
+                                    length = cols;
+                                } else {
+                                    length = rows*0.7;
+                                }
 
-                                                        <DeskUnitComponent closed={!a.toggle} length={length} large>
-                                                            <CSSTransition
-                                                            // appear
-                                                            classNames="item"
-                                                            in={test}
-                                                            timeout={500}
-                                                            >
-                                                            <div >
-                                                                <span>{a.name}</span>
-                                                            </div>
-                                                            </CSSTransition>
-                                                        </DeskUnitComponent>
-                                                    
-                                                </td>
-                                            )
-                                        })}
-                                    </tr>
-                                        
+                                return(
+                                    <td>
+
+                                        <DeskUnitComponent closed={!a.toggle} length={length} large>
+                                            <CSSTransition
+                                            // appear
+                                            classNames="item"
+                                            in={isStarted}
+                                            timeout={500}
+                                            >
+                                            <div >
+                                                <span>{a.name}</span>
+                                            </div>
+                                            </CSSTransition>
+                                        </DeskUnitComponent>
+                                    </td>
+                                )
+                            })}
+                        </tr>           
                         )
                     )}
-                    
                     </tbody>
                 </table>
             </DeskWrapper>

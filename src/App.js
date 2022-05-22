@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 `
 
 
-const Fullpage = ({studentsArr,setStudentsArr}) => (
+const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
 
   <ReactFullpage
     //fullpage options
@@ -47,21 +47,33 @@ const Fullpage = ({studentsArr,setStudentsArr}) => (
               console.log('origin.index');
             }
           }>
-          {/* <div className='section'>
-            <ManipulateComponent arr={arr}/>
-          </div> */}
-          {/* <div className="section">
-            <MainComponent />
-          </div> */}
-          <div className="section">
-            <NameListComponent studentsArr={studentsArr} setStudentsArr={setStudentsArr}/>
+          <div className='section'>
+            <ManipulateComponent 
+              arr={desksArr}
+              scroll={preventScroll}
+            />
           </div>
-          {/* <div className='section' >
-            <DeskComponent scroll={preventScroll} arr={arr} setArr={setArr}/>
-          </div>   */}
-          {/* <div className='section'>
-            <DrawComponent arr={arr} setArr={setArr}/>
-          </div> */}
+          <div className="section">
+            <MainComponent />
+          </div>
+          <div className="section">
+            <NameListComponent 
+              studentsArr={studentsArr} 
+              setStudentsArr={setStudentsArr}
+            />
+          </div>
+          <div className='section' >
+            <DeskComponent 
+              scroll={preventScroll} 
+              desksArr={desksArr} 
+              setDesksArr={setDesksArr}
+            />
+          </div>  
+          <div className='section'>
+            <DrawComponent 
+              studentsArr={studentsArr} 
+              desksArr={desksArr}/>
+          </div>
 
         </ReactFullpage.Wrapper>
         
@@ -74,7 +86,7 @@ const Fullpage = ({studentsArr,setStudentsArr}) => (
 function App() {
   const [studentsArr,setStudentsArr] = useState([]);
   const [desksArr,setDesksArr] = useState([]);
-  const dispatch = useDispatch();
+
   // 최초 학생 및 책상 배열 가져오고 리덕스에 저장
   useEffect(()=>{
     const tempStudentsArr = JSON.parse(localStorage.getItem("studentsArr"));
@@ -83,16 +95,25 @@ function App() {
 
 
     if(tempStudentsArr != null){
-        setStudentsArr(tempStudentsArr)
+        setStudentsArr([...tempStudentsArr])
     } else {
         setStudentsArr([])
+    }
+      if(tempDesksArr != null){
+        setDesksArr(tempDesksArr)
+    } else {
+        setDesksArr([])
     }
     console.log("studentsArr: ",tempStudentsArr)
     
 },[])
   return (
     <div className="App">
-      <Fullpage studentsArr={studentsArr} setStudentsArr={setStudentsArr}/>
+      <Fullpage 
+        studentsArr={studentsArr} 
+        setStudentsArr={setStudentsArr}
+        desksArr={desksArr}
+        setDesksArr={setDesksArr}/>
     </div>
   );
 }
