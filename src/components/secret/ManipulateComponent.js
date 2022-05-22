@@ -136,7 +136,7 @@ const ManipulateComponent = ({arr}) => {
         arr[fixedDesk[0]][fixedDesk[1]] = {...arr[fixedDesk[0]][fixedDesk[1]], fixedStudent: name}
 
         localStorage.setItem("setArr",JSON.stringify(arr));
-        
+         
         // localStorage.setItem("studentsArr",JSON.stringify(studentsArr))
         setModalToggle(false);
 

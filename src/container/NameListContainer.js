@@ -12,9 +12,13 @@ const NameListContainer = () => {
     
     //최초 이름 명단 가져오기
     useEffect(()=>{
-        if(tempArr != undefined){
-        setStudentsArr([...tempArr])
-        }
+        if(tempArr !== undefined && tempArr !== null ){
+            console.log('tempArr: ', tempArr)
+            setStudentsArr([...tempArr])
+        } else {
+            setStudentsArr([]);
+            localStorage.setItem("studentsArr",JSON.stringify([]))
+        };
     },tempArr);
     
     //학생 이름 추가하기

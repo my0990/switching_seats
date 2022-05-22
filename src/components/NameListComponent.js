@@ -50,45 +50,35 @@ const NameForm = styled.form`
     }
 `
 
-const NameListComponent = ({studentsArr, addStudentName}) => {
+const NameListComponent = ({studentsArr, setStudentsArr}) => {
     const [id,setId] = useState(1);
     const [inputName,setInputName] = useState();
-    // const [tempNameArr,setTempNameArr] = useState([]);
-    const [isArrExist,setIsArrExist] = useState(true);
-    // useEffect(()=>{
-    //     let tempArr = JSON.parse(localStorage.getItem('studentsArr'));
-    //     let lastId = JSON.parse(localStorage.getItem('id'));
-    //     if(tempArr.length !== 0){
-    //         setIsArrExist(true);
-    //         setTempNameArr(tempArr);
-    //         setId(lastId + 1);
-    //     } else {
-    //         localStorage.setItem('id', 1)
-    //     }
-    // },[])
-    // useEffect(()=>{
-    //     getStudentsArr({setStudentsArr: setTempNameArr});
-    // },[])
-    // useEffect(()=>{
-    //     if(tempNameArr.length === 0){
-    //         setIsArrExist(false);
-    //     } else {
-    //         setIsArrExist(true);
-    //     }
-    // },[tempNameArr])
+
+
+//만약 처음이라면 아이디 1부터 시작하고 로컬스토리지에 저장, 기존 자료있으면 마지막 아이디 가져오기
+    useEffect(()=>{
+        let lastId = JSON.parse(localStorage.getItem('id'));
+        if(studentsArr.length !== 0){
+            setId(lastId + 1);
+        } else {
+            localStorage.setItem('id', 1)
+            console.log(studentsArr)
+        }
+    },[])
+
+
+//학생 이름 추가
     const onSubmited = (e) => {
         e.preventDefault();
         if(studentsArr.length < 40){
-        addStudentName(inputName)
-        // setTempNameArr([...tempNameArr,{name: inputName, id: id}]);
-        // addStudentName({name: inputName, setStudentsArr: setTempNameArr, studentsArr: tempNameArr});
-        inputRef.current.value = '';
-        setInputName('')
-        // localStorage.setItem("studentsArr",JSON.stringify([...tempNameArr,{name: inputName, id: id}]))
-        localStorage.setItem("id",id);
+            setStudentsArr([...studentsArr,{name: inputName, id: id}]);
+            inputRef.current.value = '';
+            setInputName('')
+            localStorage.setItem("studentsArr",JSON.stringify([...studentsArr,{name: inputName, id: id}]))
+            localStorage.setItem("id",id);
+            setId(id => id + 1)
         } else {
             alert('학생수는 최대 40명입니다^^;;');
-            e.preventDefault();
         }
     }
 
@@ -115,7 +105,8 @@ const NameListComponent = ({studentsArr, addStudentName}) => {
                 <div className="wrapper">
                     {studentsArr.length === 0
                     ? <h3>학생 이름을 입력해주세요. 이름을 클릭하면 삭제할 수 있습니다.</h3>
-                    : <TransitionGroup className='content'>
+                    : null}
+                    <TransitionGroup className='content'>
                         {studentsArr.map((a,i) => 
                             ( 
                                 <CSSTransition 
@@ -125,10 +116,9 @@ const NameListComponent = ({studentsArr, addStudentName}) => {
                                 >
                                     <NameTag onClick={() => onDelete(a.id)}>{a.name}</NameTag>
                                 </CSSTransition> 
-
                                 )
                         )}
-                    </TransitionGroup>}
+                    </TransitionGroup>
                 </div>
             <NameForm onSubmit={onSubmited}>
                 <div className='inputWrapper'>

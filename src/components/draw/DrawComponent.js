@@ -97,6 +97,9 @@ const DrawComponent = ({arr, setArr}) => {
     //     }
         
     // },[localStorage.getItem])
+
+
+    
     let studentsArr = [];
     const switchStart = () => {
         studentsArr = JSON.parse(localStorage.getItem("studentsArr"))

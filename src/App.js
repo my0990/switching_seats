@@ -3,7 +3,7 @@ import ReactFullpage from '@fullpage/react-fullpage';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MainComponent from './components/MainComponent';
-import NameListContainer from './container/NameListContainer';
+import NameListComponent from './components/NameListComponent';
 import DeskComponent from './components/DeskComponent';
 import DrawComponent from './components/draw/DrawComponent';
 import ManipulateComponent from './components/secret/ManipulateComponent';
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 `
 
 
-const Fullpage = ({arr,setArr}) => (
+const Fullpage = ({studentsArr,setStudentsArr}) => (
 
   <ReactFullpage
     //fullpage options
@@ -47,21 +47,21 @@ const Fullpage = ({arr,setArr}) => (
               console.log('origin.index');
             }
           }>
-          <div className='section'>
+          {/* <div className='section'>
             <ManipulateComponent arr={arr}/>
-          </div>
-          <div className="section">
+          </div> */}
+          {/* <div className="section">
             <MainComponent />
-          </div>
+          </div> */}
           <div className="section">
-            <NameListContainer />
+            <NameListComponent studentsArr={studentsArr} setStudentsArr={setStudentsArr}/>
           </div>
-          <div className='section' >
+          {/* <div className='section' >
             <DeskComponent scroll={preventScroll} arr={arr} setArr={setArr}/>
-          </div>  
-          <div className='section'>
+          </div>   */}
+          {/* <div className='section'>
             <DrawComponent arr={arr} setArr={setArr}/>
-          </div>
+          </div> */}
 
         </ReactFullpage.Wrapper>
         
@@ -72,25 +72,27 @@ const Fullpage = ({arr,setArr}) => (
 );
 
 function App() {
-  const [arr,setArr] = useState([]);
+  const [studentsArr,setStudentsArr] = useState([]);
+  const [desksArr,setDesksArr] = useState([]);
   const dispatch = useDispatch();
   // 최초 학생 및 책상 배열 가져오고 리덕스에 저장
   useEffect(()=>{
-    const tempStudentsArr = JSON.parse(localStorage.getItem('studentsArr'))
-    const tempDesksArr = JSON.parse(localStorage.getItem('desksArr'))
+    const tempStudentsArr = JSON.parse(localStorage.getItem("studentsArr"));
+    const tempDesksArr = JSON.parse(localStorage.getItem('desksArr'));
 
-    dispatch(studentsArr(tempStudentsArr))
-    dispatch(desksArr(tempDesksArr))
 
-    // if(temp != null){
-    //     setArr(temp)
-    // }
-    // console.log(temp.length)
+
+    if(tempStudentsArr != null){
+        setStudentsArr(tempStudentsArr)
+    } else {
+        setStudentsArr([])
+    }
+    console.log("studentsArr: ",tempStudentsArr)
     
 },[])
   return (
     <div className="App">
-      <Fullpage arr={arr} setArr={setArr}/>
+      <Fullpage studentsArr={studentsArr} setStudentsArr={setStudentsArr}/>
     </div>
   );
 }
