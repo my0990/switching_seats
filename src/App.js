@@ -49,8 +49,10 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
           }>
           <div className='section'>
             <ManipulateComponent 
-              arr={desksArr}
+              desksArr={desksArr}
+              setDesksArr={setDesksArr}
               scroll={preventScroll}
+              studentsArr={studentsArr}
             />
           </div>
           <div className="section">

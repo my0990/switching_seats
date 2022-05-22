@@ -86,16 +86,21 @@ const DrawComponent = ({studentsArr, desksArr}) => {
     const [tempDesksArr,setTempDesksArr] = useState([]); //임시 책상 배열
     const [tempStudentsArr, setTempStudentsArr] = useState([]); //임시 학생 배열
     const [isStarted,setIsStarted] = useState(false); //시작
-
+    
     useEffect(()=>{
         setTempDesksArr([...desksArr]) //책상배열 임시책상배열로 복사  만약 깊은복사 안되면 lodash 이용할것
         setTempStudentsArr([...studentsArr]) //학생배열 임시학생배열로 복사
-    })
+    },[studentsArr, desksArr])
+
 
     //뽑기 시작, 임시 학생 배열을 만들어서 랜덤으로 재배치
-    const switchStart = () => {
-        if(studentsArr.length > 0){
-            studentsArr.sort(()=>Math.random()-0.5); 
+    const switchStart = (e) => {
+    //컨트롤 눌렀을때
+        if(e.ctrlKey){   
+            console.log('ctrl clicked!')
+        } else {         
+        if(tempStudentsArr.length > 0){
+            setTempStudentsArr(tempStudentsArr.sort(()=>Math.random()-0.5))
             let count = 0;
             for(let i = 0;i<tempDesksArr.length;i++){
                 for(let j=0;j<tempDesksArr[0].length;j++){
@@ -107,7 +112,10 @@ const DrawComponent = ({studentsArr, desksArr}) => {
             return null;
         }
         setIsStarted(true);
+        }
     }
+
+ 
 
     return(
         <Container>
@@ -134,13 +142,13 @@ const DrawComponent = ({studentsArr, desksArr}) => {
 
                                         <DeskUnitComponent closed={!a.toggle} length={length} large>
                                             <CSSTransition
-                                            // appear
+                                            appear
                                             classNames="item"
                                             in={isStarted}
                                             timeout={500}
                                             >
                                             <div >
-                                                <span>{a.name}</span>
+                                                <span>{isStarted? a.name : null}</span>
                                             </div>
                                             </CSSTransition>
                                         </DeskUnitComponent>
@@ -154,7 +162,7 @@ const DrawComponent = ({studentsArr, desksArr}) => {
                 </table>
             </DeskWrapper>
             <BtnWrapper>
-                <Button variant="danger" onClick={switchStart}>시작</Button>
+                <Button variant="danger" onClick={(e) => switchStart(e)}>시작</Button>
             </BtnWrapper>
         </Container>
     )

@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components';
 import { useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 const Container = styled.div`
     display: flex;
@@ -116,31 +117,41 @@ const DeskUnitComponent = styled.div`
      `}
 `
 
-const ManipulateComponent = ({arr, scroll}) => {
-    const [fixedDesk,setFixedDesk]= useState([])
+const ManipulateComponent = ({studentsArr, desksArr, setDesksArr, scroll}) => {
+    //클릭된 책상의 (i,j)
+    const [fixedDesk,setFixedDesk]= useState([]) 
     const [modalToggle,setModalToggle] = useState(false);
-    const studentsArr = JSON.parse(localStorage.getItem("studentsArr"))
+
+    //책상이 클릭되었을때, 모달 토글 true, 책상의 (i,j) 저장, 스크롤 false
     const onDeskClicked = (i,j) => {
         setModalToggle(!modalToggle)
         setFixedDesk([i,j])
-        
+        scroll(false)
     }
+
+    //지정된 학생 책상 배열(i,j)에 fixedStudent 이름 프로퍼티 생성//아이디로 하는게 나을듯?
     const fixStudent = (name) => {
-        for(let i =0;i<arr.length;i++){
-            let tempIndex = arr[i].findIndex(x=>x.fixedStudent === name)
-            
+        for(let i =0;i<desksArr.length;i++){
+            let tempIndex = desksArr[i].findIndex(x=>x.fixedStudent === name)
             if(tempIndex !== -1){
-                delete arr[i][tempIndex].fixedStudent;
+                delete desksArr[i][tempIndex].fixedStudent;
                 break;
             }
         }
-        arr[fixedDesk[0]][fixedDesk[1]] = {...arr[fixedDesk[0]][fixedDesk[1]], fixedStudent: name}
+        let tempArr = [...desksArr];
+        tempArr[fixedDesk[0]][fixedDesk[1]] = {...tempArr[fixedDesk[0]][fixedDesk[1]], fixedStudent: name}
+        setDesksArr([...tempArr])
 
-        localStorage.setItem("setArr",JSON.stringify(arr));
+        localStorage.setItem("desksArr",JSON.stringify(desksArr));
          
         // localStorage.setItem("studentsArr",JSON.stringify(studentsArr))
         setModalToggle(false);
-
+        scroll(true)
+    }
+    //레이아웃 클릭했을때 모달창 닫고 스크롤 허용
+    const onLayoutclicked = () => {
+        setModalToggle(false)
+        scroll(true)
     }
     return(
         <Container>
@@ -155,7 +166,7 @@ const ManipulateComponent = ({arr, scroll}) => {
             </div>
             <div 
                 className={`Overlay ${modalToggle ? 'Show' : ''}`}
-                onClick={()=>{setModalToggle(!modalToggle)}}
+                onClick={onLayoutclicked}
             />
             <h1>조작</h1>
             <Wrapper>
@@ -163,11 +174,11 @@ const ManipulateComponent = ({arr, scroll}) => {
                 <table>
                     <tbody>
                     
-                    {arr.map((a,i)=>(
+                    {desksArr.map((a,i)=>(
                                     <tr>
-                                        {arr[i].map((a,j)=>{
-                                            const cols = parseInt(arr.length);
-                                            const rows = parseInt(arr[0].length);
+                                        {desksArr[i].map((a,j)=>{
+                                            const cols = parseInt(desksArr.length);
+                                            const rows = parseInt(desksArr[0].length);
                                             let length = 0;
                                             if(cols>=rows){
                                                 length = cols;
@@ -178,17 +189,17 @@ const ManipulateComponent = ({arr, scroll}) => {
                                                 <td>
                                                     
                                                         <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{onDeskClicked(i,j)}}>
-                                                            {/* <CSSTransition
+                                                            <CSSTransition
                                                             // appear
                                                             classNames="item"
-                                                            in={test}
+                                                            // in={test}
                                                             timeout={500}
                                                             >
                                                             <div >
-                                                                <span>{a.name}</span>
+                                                                <span>{a.fixedStudent}</span>
                                                             </div>
-                                                            </CSSTransition> */}
-                                                            {a.fixedStudent}
+                                                            </CSSTransition>
+                                                            
                                                         </DeskUnitComponent>
                                                     
                                                 </td>
