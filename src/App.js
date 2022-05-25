@@ -53,6 +53,7 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
               setDesksArr={setDesksArr}
               scroll={preventScroll}
               studentsArr={studentsArr}
+              setStudentsArr={setStudentsArr}
             />
           </div>
           <div className="section">

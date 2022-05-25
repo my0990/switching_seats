@@ -74,10 +74,10 @@ const NameListComponent = ({studentsArr, setStudentsArr}) => {
     const onSubmited = (e) => {
         e.preventDefault();
         if(studentsArr.length < 40){
-            setStudentsArr([...studentsArr,{name: inputName, id: id}]);
+            setStudentsArr([...studentsArr,{name: inputName, id: id, fixed: false}]);
             inputRef.current.value = '';
             setInputName('')
-            localStorage.setItem("studentsArr",JSON.stringify([...studentsArr,{name: inputName, id: id}]))
+            localStorage.setItem("studentsArr",JSON.stringify([...studentsArr,{name: inputName, id: id, fixed: false}]))
             localStorage.setItem("id",id);
             setId(id => id + 1)
         } else {

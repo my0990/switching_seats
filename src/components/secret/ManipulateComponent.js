@@ -117,7 +117,7 @@ const DeskUnitComponent = styled.div`
      `}
 `
 
-const ManipulateComponent = ({studentsArr, desksArr, setDesksArr, scroll}) => {
+const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr, scroll}) => {
     //클릭된 책상의 (i,j)
     const [fixedDesk,setFixedDesk]= useState([]) 
     const [modalToggle,setModalToggle] = useState(false);
@@ -131,6 +131,9 @@ const ManipulateComponent = ({studentsArr, desksArr, setDesksArr, scroll}) => {
 
     //지정된 학생 책상 배열(i,j)에 fixedStudent 이름 프로퍼티 생성//아이디로 하는게 나을듯?
     const fixStudent = (name) => {
+        let tempArr = [...desksArr];
+
+        //같은 이름이 있으면 기존것 삭제
         for(let i =0;i<desksArr.length;i++){
             let tempIndex = desksArr[i].findIndex(x=>x.fixedStudent === name)
             if(tempIndex !== -1){
@@ -138,12 +141,40 @@ const ManipulateComponent = ({studentsArr, desksArr, setDesksArr, scroll}) => {
                 break;
             }
         }
-        let tempArr = [...desksArr];
+        //학생 배열에 fixed true로 변환 만약 기존에 이름이 덮혀져 있었다면 fixed false로 수정
+        let tempIndex = studentsArr.findIndex(x => x.name === name);
+        if(tempIndex !== -1){
+            let temp = [...studentsArr];
+            let tempName = tempArr[fixedDesk[0]][fixedDesk[1]].fixedStudent;
+
+            if(tempName !== undefined){
+                let tempNameIndex = studentsArr.findIndex(x => x.name === tempName);
+                temp[tempNameIndex] = {...temp[tempNameIndex], fixed: false};
+            }
+
+
+            
+
+            temp[tempIndex]= {...temp[tempIndex], fixed: true};
+            setStudentsArr([...temp]);
+            localStorage.setItem("studentsArr",JSON.stringify([...temp]));
+        }
+        //책상 배열에 학생 이름 저장
+
         tempArr[fixedDesk[0]][fixedDesk[1]] = {...tempArr[fixedDesk[0]][fixedDesk[1]], fixedStudent: name}
         setDesksArr([...tempArr])
-
         localStorage.setItem("desksArr",JSON.stringify(desksArr));
          
+
+
+        //만약 기존에 이름이 덮혀져 있었다면 fixed false로 수정
+        // let tempName = tempArr[fixedDesk[0]][fixedDesk[1]].name;
+        // let tempNameIndex = studentsArr.findIndex(x => x.name === tempName);
+        // let temp = [...studentsArr];
+        // temp[tempNameIndex] = {...temp[tempNameIndex], fixed: false};
+        // setStudentsArr([...temp]);
+        // localStorage.setItem("studentsArr",JSON.stringify([...temp]));
+
         // localStorage.setItem("studentsArr",JSON.stringify(studentsArr))
         setModalToggle(false);
         scroll(true)

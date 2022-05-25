@@ -86,6 +86,7 @@ const DrawComponent = ({studentsArr, desksArr}) => {
     const [tempDesksArr,setTempDesksArr] = useState([]); //임시 책상 배열
     const [tempStudentsArr, setTempStudentsArr] = useState([]); //임시 학생 배열
     const [isStarted,setIsStarted] = useState(false); //시작
+    const [isCtrlClicked,setIsCtrlClicked] = useState(false);
     
     useEffect(()=>{
         setTempDesksArr([...desksArr]) //책상배열 임시책상배열로 복사  만약 깊은복사 안되면 lodash 이용할것
@@ -96,23 +97,42 @@ const DrawComponent = ({studentsArr, desksArr}) => {
     //뽑기 시작, 임시 학생 배열을 만들어서 랜덤으로 재배치
     const switchStart = (e) => {
     //컨트롤 눌렀을때
+        console.log(tempDesksArr)
         if(e.ctrlKey){   
-            console.log('ctrl clicked!')
-        } else {         
-        if(tempStudentsArr.length > 0){
-            setTempStudentsArr(tempStudentsArr.sort(()=>Math.random()-0.5))
+            let tempArr = studentsArr.filter((a)=> a.fixed === false);
+            tempArr.sort(()=>Math.random()-0.5);
+            console.log(tempArr)
             let count = 0;
             for(let i = 0;i<tempDesksArr.length;i++){
                 for(let j=0;j<tempDesksArr[0].length;j++){
-                    if(count < tempStudentsArr.length && tempDesksArr[i][j].toggle && !tempDesksArr[i][j].fixedStudent){
-                        tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
+                    if(count < tempArr.length && tempDesksArr[i][j].toggle && !tempDesksArr[i][j].fixedStudent){
+                        let temp = tempDesksArr;
+                        temp[i][j]['name'] = tempArr[count++].name;
+                        setTempDesksArr([...temp])
+                        // tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
+                }}
+            }
+            setIsCtrlClicked(true);
+        } else {         
+        if(tempStudentsArr.length > 0){
+            let tempStudents = tempStudentsArr;
+            setTempStudentsArr(tempStudents.sort(()=>Math.random()-0.5))
+            let count = 0;
+            for(let i = 0;i<tempDesksArr.length;i++){
+                for(let j=0;j<tempDesksArr[0].length;j++){
+                    if(count < tempStudentsArr.length && tempDesksArr[i][j].toggle){
+                        let temp = tempDesksArr;
+                        temp[i][j]['name'] = tempStudentsArr[count++].name;
+                        setTempDesksArr([...temp])
+                        // tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
                 }}
             }
         } else {
             return null;
         }
-        setIsStarted(true);
+        
         }
+        setIsStarted(true);
     }
 
  
@@ -127,7 +147,7 @@ const DrawComponent = ({studentsArr, desksArr}) => {
                     <tbody>
                     {tempDesksArr.map((a,i)=>(
                         <tr>
-                            {tempDesksArr[i].map((a,j)=>{
+                            {tempDesksArr[i].map((a,j)=>{ 
                                 const cols = parseInt(tempDesksArr.length);
                                 const rows = parseInt(tempDesksArr[0].length);
                                 let length = 0;
@@ -148,7 +168,7 @@ const DrawComponent = ({studentsArr, desksArr}) => {
                                             timeout={500}
                                             >
                                             <div >
-                                                <span>{isStarted? a.name : null}</span>
+                                                <span>{isStarted? isCtrlClicked ?  a.fixedStudent || a.name : a.name : null}</span>
                                             </div>
                                             </CSSTransition>
                                         </DeskUnitComponent>
