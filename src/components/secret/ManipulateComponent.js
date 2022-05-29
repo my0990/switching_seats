@@ -116,6 +116,15 @@ const DeskUnitComponent = styled.div`
         color: red;
      `}
 `
+// 픽스할 학생 목록
+const StudentsNameList = styled.li`
+    ${(props) =>
+        props.fixed && 
+    css`
+        color: gray;  
+        
+    `}
+`
 
 const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr, scroll}) => {
     //클릭된 책상의 (i,j)
@@ -190,7 +199,7 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
                 <ul>
                 {studentsArr.map((a,i)=>{
                     return(
-                    <li key={i} onClick={()=>{fixStudent(a.name)}}>{a.name}</li>
+                    <StudentsNameList key={i} onClick={()=>{fixStudent(a.name)}} fixed={a.fixed}>{a.name}</StudentsNameList>
                     )
                 })}
                 </ul>

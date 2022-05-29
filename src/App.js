@@ -63,6 +63,8 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
             <NameListComponent 
               studentsArr={studentsArr} 
               setStudentsArr={setStudentsArr}
+              desksArr={desksArr}
+              setDesksArr={setDesksArr}
             />
           </div>
           <div className='section' >
