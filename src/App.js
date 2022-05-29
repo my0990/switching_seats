@@ -47,15 +47,7 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
               console.log('origin.index');
             }
           }>
-          <div className='section'>
-            <ManipulateComponent 
-              desksArr={desksArr}
-              setDesksArr={setDesksArr}
-              scroll={preventScroll}
-              studentsArr={studentsArr}
-              setStudentsArr={setStudentsArr}
-            />
-          </div>
+
           <div className="section">
             <MainComponent />
           </div>
@@ -72,12 +64,23 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
               scroll={preventScroll} 
               desksArr={desksArr} 
               setDesksArr={setDesksArr}
+              studentsArr={studentsArr}
+              setStudentsArr={setStudentsArr}
             />
           </div>  
           <div className='section'>
             <DrawComponent 
               studentsArr={studentsArr} 
               desksArr={desksArr}/>
+          </div>
+          <div className='section'>
+            <ManipulateComponent 
+              desksArr={desksArr}
+              setDesksArr={setDesksArr}
+              scroll={preventScroll}
+              studentsArr={studentsArr}
+              setStudentsArr={setStudentsArr}
+            />
           </div>
 
         </ReactFullpage.Wrapper>

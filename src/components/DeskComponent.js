@@ -39,7 +39,7 @@ const DeskContainer = styled.div`
     }
 `
 
-const DeskComponent = ({scroll, desksArr, setDesksArr}) => {
+const DeskComponent = ({scroll, desksArr, setDesksArr, studentsArr, setStudentsArr}) => {
     const [show, setShow] = useState(false);
 
     // 책상 배열 생성창 열기
@@ -88,6 +88,8 @@ const DeskComponent = ({scroll, desksArr, setDesksArr}) => {
                     handleClose={handleClose} 
                     setDesksArr={setDesksArr} 
                     desksArr={desksArr}
+                    studentsArr={studentsArr}
+                    setStudentsArr={setStudentsArr}
                 />
             </div>
         </DeskContainer>
