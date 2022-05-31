@@ -51,6 +51,8 @@ const DeskUnitComponent = styled.div`
     vertical-align: middle;
     span{
         display: inline-block;
+        font-size: 1.4rem;
+        font-weight: bold;
     }
     
     
@@ -118,6 +120,7 @@ const DrawComponent = ({studentsArr, desksArr}) => {
             let tempStudents = tempStudentsArr;
             setTempStudentsArr(tempStudents.sort(()=>Math.random()-0.5))
             let count = 0;
+            
             for(let i = 0;i<tempDesksArr.length;i++){
                 for(let j=0;j<tempDesksArr[0].length;j++){
                     if(count < tempStudentsArr.length && tempDesksArr[i][j].toggle){
@@ -127,15 +130,33 @@ const DrawComponent = ({studentsArr, desksArr}) => {
                         // tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
                 }}
             }
+            
         } else {
             return null;
         }
         
         }
         setIsStarted(true);
+        
     }
 
- 
+    const onReset = () => {
+        
+        let count = 0;
+        for(let i = 0;i<tempDesksArr.length;i++){
+            for(let j=0;j<tempDesksArr[0].length;j++){
+                
+                    let temp = tempDesksArr;
+                    delete temp[i][j]['name']
+                    setTempDesksArr([...temp])
+                    // tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
+            }
+        }
+        console.log(tempDesksArr);
+        
+        setIsStarted(false);
+        setIsCtrlClicked(isCtrlClicked => false)
+    }
 
     return(
         <Container>
@@ -182,7 +203,9 @@ const DrawComponent = ({studentsArr, desksArr}) => {
                 </table>
             </DeskWrapper>
             <BtnWrapper>
-                <Button variant="danger" onClick={(e) => switchStart(e)}>시작</Button>
+                {!isStarted ?<Button variant="danger" onClick={(e) => switchStart(e)}>시작</Button> :  <Button onClick={onReset}>다시뽑기</Button>}
+                
+                
             </BtnWrapper>
         </Container>
     )

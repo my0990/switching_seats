@@ -126,6 +126,14 @@ const StudentsNameList = styled.li`
     `}
 `
 
+const ResetBtn = styled.li`
+    
+    color: red;
+    &:hover {
+        font-weight: bold;    
+    }
+`
+
 const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr, scroll}) => {
     //클릭된 책상의 (i,j)
     const [fixedDesk,setFixedDesk]= useState([]) 
@@ -193,22 +201,50 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
         setModalToggle(false)
         scroll(true)
     }
+    // 조작 초기화 학생이랑 책상배열 초기화하기
+    const onResetFixedStudents = () => {
+        // 학생 초기화
+        let tempStudents = studentsArr;
+        for(let i=0;i<tempStudents.length;i++){
+            if(tempStudents[i].fixed === true){
+                tempStudents[i].fixed = false;
+            }
+        }
+        setStudentsArr([...tempStudents]);
+        localStorage.setItem('studentsArr',JSON.stringify(tempStudents));
+        
+        // 책상 초기화
+        let tempDesksArr = [...desksArr];
+        console.log(tempDesksArr)
+        for(let i=0;i<tempDesksArr.length;i++){
+            for(let j=0; j<tempDesksArr[0].length;j++){
+                if(tempDesksArr[i][j].fixedStudent){
+                    delete tempDesksArr[i][j].fixedStudent
+                } 
+            }
+        }
+        setDesksArr([...tempDesksArr]);
+        localStorage.setItem('desksArr', JSON.stringify(tempDesksArr));
+        setModalToggle(false);
+        scroll(true);
+    }
     return(
         <Container>
             <div className={`Modal ${modalToggle? 'Show' : ''}`}>
                 <ul>
-                {studentsArr.map((a,i)=>{
-                    return(
-                    <StudentsNameList key={i} onClick={()=>{fixStudent(a.name)}} fixed={a.fixed}>{a.name}</StudentsNameList>
-                    )
-                })}
+                    {studentsArr.map((a,i)=>{
+                        return(
+                        <StudentsNameList key={i} onClick={()=>{fixStudent(a.name)}} fixed={a.fixed}>{a.name}</StudentsNameList>
+                        )
+                    })}
+                    <ResetBtn onClick={onResetFixedStudents}>초기화</ResetBtn>
                 </ul>
             </div>
             <div 
                 className={`Overlay ${modalToggle ? 'Show' : ''}`}
                 onClick={onLayoutclicked}
             />
-            <h1>조작</h1>
+            <h1>자리 지정</h1>
             <Wrapper>
                 
                 <table>
@@ -228,7 +264,7 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
                                             return(
                                                 <td>
                                                     
-                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{onDeskClicked(i,j)}}>
+                                                        <DeskUnitComponent closed={!a.toggle} length={length} large onClick={()=>{a.toggle && onDeskClicked(i,j)}}>
                                                             <CSSTransition
                                                             // appear
                                                             classNames="item"
@@ -239,7 +275,6 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
                                                                 <span>{a.fixedStudent}</span>
                                                             </div>
                                                             </CSSTransition>
-                                                            
                                                         </DeskUnitComponent>
                                                     
                                                 </td>

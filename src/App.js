@@ -11,6 +11,8 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { studentsArr,desksArr } from './modules/arr';
+import KakaoLink from './components/KakaoLink';
+import Me from './components/Me';
 
 const Container = styled.div`
   display: flex;
@@ -48,13 +50,10 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
             }
           }>
           <div className='section'>
-            <ManipulateComponent 
-              desksArr={desksArr}
-              setDesksArr={setDesksArr}
-              scroll={preventScroll}
-              studentsArr={studentsArr}
-              setStudentsArr={setStudentsArr}
-            />
+            <KakaoLink />
+          </div>
+          <div className='section'>
+            <Me />
           </div>
           <div className="section">
             <MainComponent />
@@ -72,12 +71,23 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
               scroll={preventScroll} 
               desksArr={desksArr} 
               setDesksArr={setDesksArr}
+              studentsArr={studentsArr}
+              setStudentsArr={setStudentsArr}
             />
           </div>  
           <div className='section'>
             <DrawComponent 
               studentsArr={studentsArr} 
               desksArr={desksArr}/>
+          </div>
+          <div className='section'>
+            <ManipulateComponent 
+              desksArr={desksArr}
+              setDesksArr={setDesksArr}
+              scroll={preventScroll}
+              studentsArr={studentsArr}
+              setStudentsArr={setStudentsArr}
+            />
           </div>
 
         </ReactFullpage.Wrapper>

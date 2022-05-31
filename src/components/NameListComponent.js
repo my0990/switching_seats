@@ -84,16 +84,26 @@ const NameListComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr})
             alert('학생수는 최대 40명입니다^^;;');
         }
     }
-// 학생 이름 제거
+// 학생 이름 제거 /ID 찾아서 배열에서 제거하기
     const onDelete = (i) => {
-        let temp = studentsArr.filter(tempName => tempName.id !== i)
-        setStudentsArr([...temp])
-        localStorage.setItem("studentsArr", JSON.stringify(temp))
+        // 이름
+        let tempName = studentsArr.find(element => element.id === i);
+        console.log("tempName: ", tempName)
+        let temp = studentsArr.filter(tempName => tempName.id !== i);
+        setStudentsArr([...temp]);
+        localStorage.setItem("studentsArr", JSON.stringify(temp));
+        // 학생 이름 제거시 책상 배열에서 fixedStudents 같이 제거 desksArr 수정
+        let tempDesksArr = [...desksArr];
 
-        // deskArr 에서 fixedstudents 제거
-        let tempdesk = [...desksArr];
-        setDesksArr()
-        console.log('rendered')
+        for(let i =0;i<desksArr.length;i++){
+            let tempIndex = desksArr[i].findIndex(x=>x.fixedStudent === tempName.name)
+            if(tempIndex !== -1){
+                delete tempDesksArr[i][tempIndex].fixedStudent;
+                setDesksArr([...tempDesksArr])
+                break;
+            }
+        }
+        localStorage.setItem("desksArr", JSON.stringify(tempDesksArr))
     }
     
 // 입력창 value

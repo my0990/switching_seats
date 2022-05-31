@@ -64,7 +64,7 @@ const ModalContainer = styled.div`
 `
 
 
-const DeskModalComponent = ({handleClose, show, setDesksArr}) => {
+const DeskModalComponent = ({handleClose, show, setDesksArr, studentsArr, setStudentsArr}) => {
     const [numAlert,setNumAlert] = useState(false); //입력숫자 제한 인풋이 10보다 크면  true
     const [tempArr,setTempArr] = useState([]);  //임시 책상 배열
 
@@ -91,9 +91,21 @@ const DeskModalComponent = ({handleClose, show, setDesksArr}) => {
     }
 
     // 임시배열 저장 후 로컬 스토리지에 저장
+
     const onSave = (arr) => {
         setDesksArr([...arr])
         localStorage.setItem('desksArr',JSON.stringify(arr))
+
+    // 학생 배열 fixed 모두 false로 바꾸기
+        console.log(studentsArr)
+        let tempStudents = studentsArr;
+        for(let i=0;i<tempStudents.length;i++){
+            if(tempStudents[i].fixed === true){
+                tempStudents[i].fixed = false;
+            }
+        }
+        setStudentsArr([...tempStudents])
+        localStorage.setItem('studentsArr',JSON.stringify(tempStudents))
         onClose();
     }
 
