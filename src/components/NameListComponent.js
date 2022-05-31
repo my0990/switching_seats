@@ -52,7 +52,7 @@ const NameForm = styled.form`
     }
 `
 
-const NameListComponent = ({studentsArr, setStudentsArr}) => {
+const NameListComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr}) => {
     const [id,setId] = useState(1);
     const [inputName,setInputName] = useState();
     const inputRef = useRef();
@@ -89,6 +89,10 @@ const NameListComponent = ({studentsArr, setStudentsArr}) => {
         let temp = studentsArr.filter(tempName => tempName.id !== i)
         setStudentsArr([...temp])
         localStorage.setItem("studentsArr", JSON.stringify(temp))
+
+        // deskArr 에서 fixedstudents 제거
+        let tempdesk = [...desksArr];
+        setDesksArr()
         console.log('rendered')
     }
     
