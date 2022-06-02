@@ -75,13 +75,31 @@ label {
 }
 `
 
-const Me = ({scroll,moveToDown}) => {
+const Wrapper2 = styled.div`
 
+`
+
+const Me = ({scroll,moveToDown, setIsMeClicked, isMeClicked}) => {
+
+    const click = () => {
+
+        setInterval(()=>{
+          setIsMeClicked(true);
+        },1000)
+
+        
+    }
     return(
         <Wrapper>
-            <input type="checkbox" id="cb1" />
-            <label for="cb1">만든이: 말잇닿을련</label>
+          {!isMeClicked
+            ? 
+            <>
+              <input type="checkbox" id="cb1" />
+              <label for="cb1" onClick={click}>만든이: 말잇닿을련</label>
+              </> 
+              :<div>test</div>}
         </Wrapper>
+
     )
 }
 

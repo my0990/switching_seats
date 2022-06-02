@@ -27,11 +27,12 @@ const Wrapper = styled.div`
 `
 
 
-const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
+const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr, isMeClicked,setIsMeClicked}) => (
 
   <ReactFullpage
     licenseKey = {'YOUR_KEY_HERE'}
     scrollingSpeed = {1000} /* Options here */
+
     render={({ state, fullpageApi }) => {
       const preventScroll = (e) => {
         fullpageApi.setAllowScrolling(e);
@@ -40,6 +41,8 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
       const moveToDown = () => {
         fullpageApi.moveSectionDown();
       }
+      
+
       
       
       return (
@@ -52,9 +55,11 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
             <Me 
               scroll={preventScroll}
               moveToDown={moveToDown}
+              setIsMeClicked={setIsMeClicked}
+              isMeClicked={isMeClicked}
               />
           </div>
-          <div className="section">
+          {/* <div className="section">
             <MainComponent />
           </div>
           <div className="section">
@@ -87,7 +92,12 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
               studentsArr={studentsArr}
               setStudentsArr={setStudentsArr}
             />
-          </div>
+          </div> */}
+            <div className='section'>
+              <p>last section test</p>
+            </div>
+
+          
 
         </ReactFullpage.Wrapper>
         
@@ -100,7 +110,7 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr}) => (
 function App() {
   const [studentsArr,setStudentsArr] = useState([]);
   const [desksArr,setDesksArr] = useState([]);
-  const [isMePage,setIsMepage] = useState(true);
+  const [isMeClicked,setIsMeClicked] = useState(false);
 
   // 최초 학생 및 책상 배열 가져오고 리덕스에 저장
   useEffect(()=>{
@@ -119,7 +129,7 @@ function App() {
     } else {
         setDesksArr([])
     }
-    console.log("studentsArr: ",tempStudentsArr)
+    
     
 },[])
   return (
@@ -129,7 +139,8 @@ function App() {
         setStudentsArr={setStudentsArr}
         desksArr={desksArr}
         setDesksArr={setDesksArr}
-
+        setIsMeClicked={setIsMeClicked}
+        isMeClicked={isMeClicked}
         />
     </div>
   );
