@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { CSSTransition } from "react-transition-group";
+import ManipulateComponent from "./secret/ManipulateComponent";
 
 
 const Wrapper = styled.div`
@@ -75,29 +77,43 @@ label {
 }
 `
 
-const Wrapper2 = styled.div`
 
-`
 
-const Me = ({scroll,moveToDown, setIsMeClicked, isMeClicked}) => {
-
+const Me = ({scroll, desksArr, setDesksArr, studentsArr, setStudentsArr}) => {
+    const [isClicked, setIsClicked] = useState(false);
     const click = () => {
 
         setInterval(()=>{
-          setIsMeClicked(true);
+          setIsClicked(true);
         },1000)
 
         
     }
     return(
         <Wrapper>
-          {!isMeClicked
-            ? 
-            <>
-              <input type="checkbox" id="cb1" />
-              <label for="cb1" onClick={click}>만든이: 말잇닿을련</label>
+
+          {!isClicked && 
+              <>
+                <input type="checkbox" id="cb1" />
+                <label for="cb1" onClick={click}>만든이: 말잇닿을련</label>
               </> 
-              :<div>test</div>}
+          }
+          <CSSTransition
+            in={isClicked}
+            timeout={300}
+            unmountOnExit
+            classNames="item"
+            >
+              <ManipulateComponent 
+                desksArr={desksArr}
+                setDesksArr={setDesksArr}
+                scroll={scroll}
+                studentsArr={studentsArr}
+                setStudentsArr={setStudentsArr}
+            />
+          </CSSTransition>
+
+
         </Wrapper>
 
     )

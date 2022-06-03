@@ -60,11 +60,11 @@ const DeskUnitComponent = styled.div`
         margin: 6px;
     }    
     @media screen and (min-width: 768px) and (max-width: 1023px){
-        background: blue;
+
         margin: 6px;
     }    
     @media screen and (max-width: 767px){
-        background: greenyellow;
+
         margin: 3px;
     }
     ${(props) =>

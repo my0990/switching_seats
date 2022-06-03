@@ -48,18 +48,8 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr, isMeClicked,
       return (
 
         <ReactFullpage.Wrapper>
-          <div className='section'>
-            <KakaoLink />
-          </div>
-          <div className='section'>
-            <Me 
-              scroll={preventScroll}
-              moveToDown={moveToDown}
-              setIsMeClicked={setIsMeClicked}
-              isMeClicked={isMeClicked}
-              />
-          </div>
-          {/* <div className="section">
+          
+          <div className="section">
             <MainComponent />
           </div>
           <div className="section">
@@ -84,7 +74,7 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr, isMeClicked,
               studentsArr={studentsArr} 
               desksArr={desksArr}/>
           </div>
-          <div className='section'>
+          {/* <div className='section'>
             <ManipulateComponent 
               desksArr={desksArr}
               setDesksArr={setDesksArr}
@@ -93,9 +83,20 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr, isMeClicked,
               setStudentsArr={setStudentsArr}
             />
           </div> */}
-            <div className='section'>
-              <p>last section test</p>
-            </div>
+
+          <div className='section'>
+            <Me 
+              scroll={preventScroll}
+              moveToDown={moveToDown}
+              desksArr={desksArr}
+              setDesksArr={setDesksArr}
+              studentsArr={studentsArr}
+              setStudentsArr={setStudentsArr}
+              />
+          </div>
+          <div className='section'>
+            <KakaoLink />
+          </div>
 
           
 

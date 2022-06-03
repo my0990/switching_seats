@@ -17,6 +17,7 @@ const Wrapper = styled.div`
     padding-bottom: 30%;
     border: 1px solid black;
     cursor: pointer;
+    font-weight: bold;
     &:hover {
         transform: scale(1.1);
         transition: transform 100ms ease-in;

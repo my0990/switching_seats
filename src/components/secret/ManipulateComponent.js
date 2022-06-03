@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 const Container = styled.div`
+    font-size: 16px;
     display: flex;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: orange;
+    // background-color: orange;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -63,7 +64,7 @@ const Wrapper = styled.div`
     width: 80%;
     height: 80%;
     min-width: 1024px;
-    min-height: 600px;
+    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,11 +94,11 @@ const DeskUnitComponent = styled.div`
         margin: 6px;
     }    
     @media screen and (min-width: 768px) and (max-width: 1023px){
-        background: blue;
+
         margin: 6px;
     }    
     @media screen and (max-width: 767px){
-        background: greenyellow;
+
         margin: 3px;
     } */
     ${(props) =>
