@@ -48,7 +48,6 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr, isMeClicked,
       return (
 
         <ReactFullpage.Wrapper>
-          
           <div className="section">
             <MainComponent />
           </div>
@@ -74,16 +73,6 @@ const Fullpage = ({studentsArr,setStudentsArr,desksArr,setDesksArr, isMeClicked,
               studentsArr={studentsArr} 
               desksArr={desksArr}/>
           </div>
-          {/* <div className='section'>
-            <ManipulateComponent 
-              desksArr={desksArr}
-              setDesksArr={setDesksArr}
-              scroll={preventScroll}
-              studentsArr={studentsArr}
-              setStudentsArr={setStudentsArr}
-            />
-          </div> */}
-
           <div className='section'>
             <Me 
               scroll={preventScroll}

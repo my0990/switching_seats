@@ -1,11 +1,11 @@
 import btnImg from '.././btn_send_small.png';
-import sample from '.././sample.png';
+import sample from '.././굽신굽신.png';
 
 const KakaoLink = () => {
     return(
         <div>
 
-            <img src={sample}/>
+            <img src={sample} style={{width:'300px',height:'300px'}}/>
             <p></p>
             <p>유용하게 사용하셨다면^^;;</p>
             <a href="http://kko.to/ceF9SxEy8" target='blank'><img src={btnImg} /></a>

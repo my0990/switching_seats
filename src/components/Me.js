@@ -81,21 +81,22 @@ label {
 
 const Me = ({scroll, desksArr, setDesksArr, studentsArr, setStudentsArr}) => {
     const [isClicked, setIsClicked] = useState(false);
+    const [showButton,setShowButton] = useState(true);
+    const [empty,setEmpty] = useState(false);
     const click = () => {
+      // setTimeout(()=>{ setIsClicked(true) }, 700);/
+      setInterval(()=>{
+        setIsClicked(true)
+      },1000)
 
-        setInterval(()=>{
-          setIsClicked(true);
-        },1000)
-
-        
     }
     return(
         <Wrapper>
-
-          {!isClicked && 
+          {showButton && 
               <>
                 <input type="checkbox" id="cb1" />
-                <label for="cb1" onClick={click}>만든이: 말잇닿을련</label>
+                <label for="cb1" onClick={()=>{click()}}>만든이: 말잇닿을련</label>
+                
               </> 
           }
           <CSSTransition
@@ -103,16 +104,21 @@ const Me = ({scroll, desksArr, setDesksArr, studentsArr, setStudentsArr}) => {
             timeout={300}
             unmountOnExit
             classNames="item"
+            onEnter={() => setShowButton(false)}
+            onExited={() => setShowButton(true)}
             >
               <ManipulateComponent 
                 desksArr={desksArr}
                 setDesksArr={setDesksArr}
                 scroll={scroll}
                 studentsArr={studentsArr}
-                setStudentsArr={setStudentsArr}
+                setStudentsArr={setShowButton}
+                setIsClicked={setIsClicked}
             />
+            
           </CSSTransition>
-
+          
+          
 
         </Wrapper>
 

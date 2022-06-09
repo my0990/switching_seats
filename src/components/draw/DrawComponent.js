@@ -99,11 +99,9 @@ const DrawComponent = ({studentsArr, desksArr}) => {
     //뽑기 시작, 임시 학생 배열을 만들어서 랜덤으로 재배치
     const switchStart = (e) => {
     //컨트롤 눌렀을때
-        console.log(tempDesksArr)
         if(e.ctrlKey){   
             let tempArr = studentsArr.filter((a)=> a.fixed === false);
             tempArr.sort(()=>Math.random()-0.5);
-            console.log(tempArr)
             let count = 0;
             for(let i = 0;i<tempDesksArr.length;i++){
                 for(let j=0;j<tempDesksArr[0].length;j++){
@@ -152,7 +150,7 @@ const DrawComponent = ({studentsArr, desksArr}) => {
                     // tempDesksArr[i][j]['name'] = tempStudentsArr[count++].name
             }
         }
-        console.log(tempDesksArr);
+
         
         setIsStarted(false);
         setIsCtrlClicked(isCtrlClicked => false)

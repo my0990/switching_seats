@@ -97,7 +97,6 @@ const DeskModalComponent = ({handleClose, show, setDesksArr, studentsArr, setStu
         localStorage.setItem('desksArr',JSON.stringify(arr))
 
     // 학생 배열 fixed 모두 false로 바꾸기
-        console.log(studentsArr)
         let tempStudents = studentsArr;
         for(let i=0;i<tempStudents.length;i++){
             if(tempStudents[i].fixed === true){

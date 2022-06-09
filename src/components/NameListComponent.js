@@ -60,12 +60,10 @@ const NameListComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr})
 //만약 처음이라면 아이디 1부터 시작하고 로컬스토리지에 저장, 기존 자료있으면 마지막 아이디 가져오기
     useEffect(()=>{
         let lastId = JSON.parse(localStorage.getItem('id'));
-        console.log("lastId: ", lastId)
         if(lastId !== null){
             setId(lastId + 1);
         } else {
             localStorage.setItem('id', 1)
-            console.log("test: ", studentsArr)
         }
     },[])
 
@@ -88,7 +86,6 @@ const NameListComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr})
     const onDelete = (i) => {
         // 이름
         let tempName = studentsArr.find(element => element.id === i);
-        console.log("tempName: ", tempName)
         let temp = studentsArr.filter(tempName => tempName.id !== i);
         setStudentsArr([...temp]);
         localStorage.setItem("studentsArr", JSON.stringify(temp));
