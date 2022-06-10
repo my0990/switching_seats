@@ -2,6 +2,7 @@ import styled, {css} from 'styled-components';
 import { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import {Button} from'react-bootstrap';
+import { useEffect } from 'react';
 
 const Container = styled.div`
     font-size: 16px;
@@ -120,11 +121,12 @@ const DeskUnitComponent = styled.div`
 `
 // 픽스할 학생 목록
 const StudentsNameList = styled.li`
+    font-weight: bold;
     ${(props) =>
         props.fixed && 
     css`
         color: gray;  
-        font-weight: bold;
+        font-weight: normal;
         
     `}
 `
@@ -152,9 +154,8 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
     //지정된 학생 책상 배열(i,j)에 fixedStudent 이름 프로퍼티 생성//아이디로 하는게 나을듯?
     const fixStudent = (name) => {
         let tempArr = [...desksArr];
-        let temp = [...studentsArr];
-        console.log(studentsArr)
-        console.log('first',temp)
+        let temp = studentsArr;
+
         //같은 이름이 있으면 기존것 삭제
         for(let i =0;i<desksArr.length;i++){
             let tempIndex = desksArr[i].findIndex(x=>x.fixedStudent === name)
@@ -172,19 +173,20 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
             if(tempName !== undefined){
                 let tempNameIndex = studentsArr.findIndex(x => x.name === tempName);
                 temp[tempNameIndex] = {...temp[tempNameIndex], fixed: false};
-                console.log('test')
             }
 
 
             
-            console.log('test',temp)
+
             temp[tempIndex]= {...temp[tempIndex], fixed: true};
             // setStudentsArr([...temp]);
             
             localStorage.setItem("studentsArr",JSON.stringify([...temp]));
         }
         //책상 배열에 학생 이름 저장
-        setStudentsArr([...temp]);
+        setStudentsArr((prev)=>
+             [...temp]
+        );
         tempArr[fixedDesk[0]][fixedDesk[1]] = {...tempArr[fixedDesk[0]][fixedDesk[1]], fixedStudent: name}
         setDesksArr([...tempArr])
         localStorage.setItem("desksArr",JSON.stringify(desksArr));
@@ -235,6 +237,9 @@ const ManipulateComponent = ({studentsArr, setStudentsArr, desksArr, setDesksArr
         setModalToggle(false);
         scroll(true);
     }
+    useEffect(()=>{
+
+    })
     return(
         <Container>
             <div className={`Modal ${modalToggle? 'Show' : ''}`}>

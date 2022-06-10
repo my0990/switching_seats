@@ -84,10 +84,10 @@ const Me = ({scroll, desksArr, setDesksArr, studentsArr, setStudentsArr}) => {
     const [showButton,setShowButton] = useState(true);
     const [empty,setEmpty] = useState(false);
     const click = () => {
-      // setTimeout(()=>{ setIsClicked(true) }, 700);/
-      setInterval(()=>{
-        setIsClicked(true)
-      },1000)
+      setTimeout(()=>{ setIsClicked(true) }, 700);
+      // setInterval(()=>{
+      //   setIsClicked(true)
+      // },1000)
 
     }
     return(
