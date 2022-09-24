@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/switching_seats/static/css/main.68d24319.css",
+    "main.js": "/switching_seats/static/js/main.ca053ced.js",
+    "static/js/787.683ce094.chunk.js": "/switching_seats/static/js/787.683ce094.chunk.js",
+    "static/media/굽신굽신.png": "/switching_seats/static/media/굽신굽신.10b9e046b1ff76720d12.png",
+    "index.html": "/switching_seats/index.html",
+    "main.68d24319.css.map": "/switching_seats/static/css/main.68d24319.css.map",
+    "main.ca053ced.js.map": "/switching_seats/static/js/main.ca053ced.js.map",
+    "787.683ce094.chunk.js.map": "/switching_seats/static/js/787.683ce094.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.68d24319.css",
+    "static/js/main.ca053ced.js"
+  ]
+}
